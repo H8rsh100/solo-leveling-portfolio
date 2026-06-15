@@ -1,0 +1,275 @@
+/* ═══════════════════════════════════════════════
+   Solo Leveling — Enhanced Effects & System UI
+   ═══════════════════════════════════════════════ */
+
+/* ─── System Toast Notifications ─── */
+.system-toast {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.7rem 1.2rem;
+  background: rgba(5, 2, 18, 0.92);
+  border: 1px solid rgba(74, 144, 255, 0.25);
+  border-left: 3px solid #4A90FF;
+  backdrop-filter: blur(16px);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.78rem;
+  color: #C8D6E5;
+  box-shadow: 0 0 25px rgba(74,144,255,0.15), inset 0 0 30px rgba(74,144,255,0.03);
+  opacity: 0;
+  transform: translateX(40px);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  max-width: 380px;
+}
+.system-toast.show { opacity: 1; transform: translateX(0); }
+.system-toast.hide { opacity: 0; transform: translateX(60px) scale(0.95); }
+.toast-icon { font-size: 1.1rem; }
+.toast-text { letter-spacing: 0.5px; }
+
+/* ─── Status Window Frame (Hero) ─── */
+.status-window {
+  position: relative;
+  border: 1px solid rgba(74, 144, 255, 0.2);
+  padding: 3rem 2.5rem;
+  background: rgba(5, 2, 18, 0.6);
+  backdrop-filter: blur(8px);
+  max-width: 650px;
+  width: 90%;
+  margin: 0 auto;
+}
+.status-window::before {
+  content: '[ STATUS WINDOW ]';
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #4A90FF;
+  letter-spacing: 4px;
+  text-shadow: 0 0 20px rgba(74,144,255,0.5);
+  background: #03000A;
+  padding: 0 1rem;
+}
+.status-window::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(74,144,255,0.3), transparent, rgba(155,89,255,0.3)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: border-shift 4s ease-in-out infinite;
+}
+@keyframes border-shift {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+/* ─── Status Window Corner Accents ─── */
+.sw-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: #4A90FF;
+  border-style: solid;
+  border-width: 0;
+}
+.sw-corner.tl { top: -1px; left: -1px; border-top-width: 2px; border-left-width: 2px; }
+.sw-corner.tr { top: -1px; right: -1px; border-top-width: 2px; border-right-width: 2px; }
+.sw-corner.bl { bottom: -1px; left: -1px; border-bottom-width: 2px; border-left-width: 2px; }
+.sw-corner.br { bottom: -1px; right: -1px; border-bottom-width: 2px; border-right-width: 2px; }
+
+/* ─── HP / MP / EXP Bars ─── */
+.vitals-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 350px;
+  margin: 1.5rem auto;
+}
+.vital-bar {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.vital-label {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  width: 28px;
+  text-align: right;
+}
+.vital-label.hp { color: #FF4757; }
+.vital-label.mp { color: #4A90FF; }
+.vital-label.exp { color: #FFD700; }
+.vital-track {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 1px;
+  overflow: hidden;
+  position: relative;
+}
+.vital-fill {
+  height: 100%;
+  border-radius: 1px;
+  transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+.vital-fill.hp { background: linear-gradient(90deg, #FF4757, #FF6B81); box-shadow: 0 0 8px rgba(255,71,87,0.4); }
+.vital-fill.mp { background: linear-gradient(90deg, #4A90FF, #74b9ff); box-shadow: 0 0 8px rgba(74,144,255,0.4); }
+.vital-fill.exp { background: linear-gradient(90deg, #FFD700, #FFEAA7); box-shadow: 0 0 8px rgba(255,215,0,0.4); }
+.vital-value {
+  font-size: 0.65rem;
+  color: rgba(255,255,255,0.4);
+  font-family: 'Share Tech Mono', monospace;
+  min-width: 60px;
+}
+
+/* ─── ARISE Text ─── */
+.arise-text {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: 700;
+  letter-spacing: 12px;
+  color: transparent;
+  background: linear-gradient(90deg, #4A90FF, #9B59FF, #4A90FF);
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: arise-shimmer 3s ease-in-out infinite;
+  margin-top: 1.5rem;
+  text-transform: uppercase;
+}
+@keyframes arise-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ─── Level Badge ─── */
+.level-badge {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7rem;
+  color: rgba(74,144,255,0.6);
+  letter-spacing: 3px;
+  margin-top: 0.5rem;
+}
+
+/* ─── Card Proximity Glow ─── */
+.skill-card, .project-card {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-intensity: 0;
+  transition: transform 0.15s ease, border-color 0.3s, box-shadow 0.3s;
+}
+.skill-card::after, .project-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at var(--glow-x) var(--glow-y),
+    rgba(74,144,255, calc(0.08 * var(--glow-intensity))),
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── Korean Rune Watermarks ─── */
+.section-rune {
+  position: absolute;
+  font-size: 8rem;
+  color: rgba(74, 144, 255, 0.025);
+  font-family: serif;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+/* ─── Section Divider ─── */
+.section-divider {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(74,144,255,0.2), rgba(155,89,255,0.2), transparent);
+  position: relative;
+}
+.section-divider::before {
+  content: '◇';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: rgba(74,144,255,0.3);
+  font-size: 0.8rem;
+  background: #03000A;
+  padding: 0 1rem;
+}
+
+/* ─── Enhanced Project Cards — Dungeon Gate Style ─── */
+.project-card .dungeon-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: rgba(74,144,255,0.4);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 0.4rem;
+}
+
+/* ─── Pulsing energy on S-rank cards ─── */
+.project-card.s-rank-card {
+  border-color: rgba(255, 215, 0, 0.15);
+}
+.project-card.s-rank-card:hover {
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 30px rgba(255, 215, 0, 0.15), 0 0 60px rgba(255, 215, 0, 0.05);
+}
+
+/* ─── Hexagonal Badge (S-Rank) ─── */
+.hero-badge {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin-bottom: 2rem;
+}
+.badge-hex {
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border: 2px solid var(--gold);
+  background: rgba(255,215,0,0.03);
+  animation: badge-pulse 2s ease-in-out infinite;
+}
+.badge-hex::after {
+  content: '';
+  position: absolute;
+  inset: 4px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  border: 1px solid rgba(255,215,0,0.2);
+}
+
+/* ─── Enhanced Rank Display ─── */
+.rank-display {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.rank-display .rank-stars {
+  color: var(--gold);
+  font-size: 0.5rem;
+  letter-spacing: 2px;
+}
+
+/* ─── Responsive Toast ─── */
+@media (max-width: 768px) {
+  .system-toast { max-width: 280px; font-size: 0.7rem; }
+  .status-window { padding: 2rem 1.5rem; }
+  .arise-text { letter-spacing: 6px; }
+}
