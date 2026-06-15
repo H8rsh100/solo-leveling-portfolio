@@ -100,6 +100,131 @@ function initSectionToasts() {
   sections.forEach(s => obs.observe(s));
 }
 
+// ═══ SHADOW MONARCH CURSOR TRAIL ═══
+function initCursorTrail() {
+  const trailCanvas = document.createElement('canvas');
+  trailCanvas.style.cssText = 'position:fixed;inset:0;z-index:9996;pointer-events:none;';
+  document.body.appendChild(trailCanvas);
+  const tCtx = trailCanvas.getContext('2d');
+  let tW, tH;
+  function resizeTrail() { tW = trailCanvas.width = window.innerWidth; tH = trailCanvas.height = window.innerHeight; }
+  resizeTrail();
+  window.addEventListener('resize', resizeTrail);
+
+  const trail = [];
+  let mouseX = -100, mouseY = -100;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    for (let i = 0; i < 2; i++) {
+      trail.push({
+        x: mouseX + (Math.random() - 0.5) * 8,
+        y: mouseY + (Math.random() - 0.5) * 8,
+        size: Math.random() * 6 + 2,
+        life: 1,
+        decay: 0.015 + Math.random() * 0.01,
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: (Math.random() - 0.5) * 1.5 - 0.5,
+        color: Math.random() > 0.5 ? '74,144,255' : '155,89,255'
+      });
+    }
+  });
+
+  function animateTrail() {
+    tCtx.clearRect(0, 0, tW, tH);
+    for (let i = trail.length - 1; i >= 0; i--) {
+      const p = trail[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= p.decay;
+      p.size *= 0.98;
+      if (p.life <= 0) { trail.splice(i, 1); continue; }
+      tCtx.save();
+      tCtx.globalAlpha = p.life * 0.6;
+      tCtx.shadowColor = `rgba(${p.color},0.8)`;
+      tCtx.shadowBlur = 10;
+      tCtx.fillStyle = `rgba(${p.color},${p.life})`;
+      tCtx.beginPath();
+      tCtx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+      tCtx.fill();
+      tCtx.restore();
+    }
+    if (trail.length > 150) trail.splice(0, trail.length - 150);
+    requestAnimationFrame(animateTrail);
+  }
+  animateTrail();
+}
+
+// ═══ DAILY QUEST TRACKER ═══
+function initQuestTracker() {
+  const quests = [
+    { id: 'hero', text: 'View Hunter Profile', done: false },
+    { id: 'arise-section', text: 'Witness Shadow Extraction', done: false },
+    { id: 'globe-section', text: 'Inspect Skill Constellation', done: false },
+    { id: 'skills', text: 'Review Hunter Stats', done: false },
+    { id: 'projects', text: 'Clear All Dungeons', done: false }
+  ];
+
+  const tracker = document.createElement('div');
+  tracker.id = 'quest-tracker';
+  tracker.innerHTML = `
+    <div class="qt-header">
+      <span class="qt-icon">📜</span>
+      <span class="qt-title">DAILY QUEST</span>
+      <button class="qt-toggle" id="qt-toggle">─</button>
+    </div>
+    <div class="qt-body" id="qt-body">
+      ${quests.map((q, i) => `
+        <div class="qt-item" id="qt-${q.id}" data-index="${i}">
+          <span class="qt-check">☐</span>
+          <span class="qt-text">${q.text}</span>
+        </div>
+      `).join('')}
+      <div class="qt-reward">
+        <span class="qt-reward-label">Reward:</span>
+        <span class="qt-reward-value">☆ Recruit This Hunter</span>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(tracker);
+
+  // Toggle collapse
+  let collapsed = false;
+  document.getElementById('qt-toggle').addEventListener('click', () => {
+    collapsed = !collapsed;
+    document.getElementById('qt-body').style.display = collapsed ? 'none' : 'block';
+    document.getElementById('qt-toggle').textContent = collapsed ? '+' : '─';
+  });
+
+  // Observe each section
+  quests.forEach(q => {
+    const target = document.getElementById(q.id);
+    if (!target) return;
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && !q.done) {
+          q.done = true;
+          const el = document.getElementById('qt-' + q.id);
+          if (el) {
+            el.classList.add('qt-done');
+            el.querySelector('.qt-check').textContent = '☑';
+          }
+          // Check if all done
+          if (quests.every(qq => qq.done)) {
+            setTimeout(() => {
+              const reward = tracker.querySelector('.qt-reward');
+              if (reward) reward.classList.add('qt-reward-unlocked');
+            }, 500);
+          }
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(target);
+  });
+}
+
 // ═══ ARISE — SHADOW ARMY SUMMONING ═══
 let ariseTriggered = false;
 function initArise() {
@@ -320,6 +445,7 @@ window.initMainContent = function() {
     initCardTilt();
     initProximityGlow();
     initArise();
+    initCursorTrail();
   }, 500);
 };
 
