@@ -24,7 +24,6 @@ function buildHero() {
       </div>
 
       <h1 class="hero-name glitch" data-text="${PROFILE.name}">${PROFILE.name}</h1>
-      <p class="hero-handle">@${PROFILE.handle}</p>
       <p class="level-badge">Lv. 99 ━ National-Level Hunter</p>
       <p class="hero-role">${PROFILE.role}</p>
 
@@ -69,8 +68,6 @@ function buildHero() {
           Instagram
         </a>
       </div>
-
-      <p class="arise-text">A R I S E</p>
     </div>
   `;
 }
@@ -201,9 +198,8 @@ function initScrollAnimations() {
   gsap.from('.status-window', { opacity: 0, scale: 0.9, duration: 1, ease: 'power2.out', delay: 0.1 });
   gsap.from('#hero-badge', { scale: 0, rotation: 720, duration: 1.2, ease: 'back.out(1.7)', delay: 0.3 });
   gsap.from('.hero-name', { y: 60, opacity: 0, duration: 0.8, delay: 0.6 });
-  gsap.from('.hero-handle', { y: 30, opacity: 0, duration: 0.6, delay: 0.8 });
-  gsap.from('.level-badge', { y: 20, opacity: 0, duration: 0.5, delay: 0.9 });
-  gsap.from('.hero-role', { y: 30, opacity: 0, duration: 0.6, delay: 1.0 });
+  gsap.from('.level-badge', { y: 20, opacity: 0, duration: 0.5, delay: 0.8 });
+  gsap.from('.hero-role', { y: 30, opacity: 0, duration: 0.6, delay: 0.9 });
 
   // Animate HP/MP/EXP bars
   setTimeout(() => {
