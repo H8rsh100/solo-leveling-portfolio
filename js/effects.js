@@ -271,6 +271,46 @@ shakeStyle.textContent = `
 }`;
 document.head.appendChild(shakeStyle);
 
+// ═══ CARD 3D TILT ON HOVER ═══
+function initCardTilt() {
+  document.addEventListener('mousemove', (e) => {
+    document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const inCard = e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom;
+      if (inCard) {
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = `perspective(800px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) translateY(-4px)`;
+      } else {
+        card.style.transform = '';
+      }
+    });
+  });
+}
+
+// ═══ MOUSE PROXIMITY GLOW ═══
+function initProximityGlow() {
+  document.addEventListener('mousemove', (e) => {
+    document.querySelectorAll('.skill-card, .project-card').forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const dist = Math.hypot(e.clientX - cx, e.clientY - cy);
+      const maxDist = 300;
+      if (dist < maxDist) {
+        const intensity = 1 - dist / maxDist;
+        const relX = ((e.clientX - rect.left) / rect.width) * 100;
+        const relY = ((e.clientY - rect.top) / rect.height) * 100;
+        card.style.setProperty('--glow-x', relX + '%');
+        card.style.setProperty('--glow-y', relY + '%');
+        card.style.setProperty('--glow-intensity', intensity);
+      } else {
+        card.style.setProperty('--glow-intensity', 0);
+      }
+    });
+  });
+}
+
 // ═══ INIT ON GATE OPEN ═══
 const origInit = window.initMainContent;
 window.initMainContent = function() {
