@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HARSH — S-Rank Developer Portfolio</title>
+  <meta name="description" content="Solo Leveling themed developer portfolio of HARSH — Full-Stack Developer, AI Engineer, Blockchain Architect. Class S Hunter." />
+  <meta name="theme-color" content="#03000A" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- ═══════ Gate Overlay ═══════ -->
+  <div id="gate-overlay">
+    <canvas id="gate-canvas"></canvas>
+    <div class="gate-ui">
+      <p class="gate-title">⬡ Dungeon Gate Detected ⬡</p>
+      <p id="gate-status">Initializing scan...</p>
+      <div class="gate-progress">
+        <div id="gate-progress-fill"></div>
+      </div>
+      <div id="gate-rune">始</div>
+    </div>
+  </div>
+
+  <!-- ═══════ Main Content ═══════ -->
+  <div class="main-content">
+
+    <!-- Hero -->
+    <section id="hero"></section>
+
+    <!-- 3D Globe -->
+    <section id="globe-section">
+      <div id="globe-container"></div>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills"></section>
+
+    <!-- Projects -->
+    <section id="projects"></section>
+
+    <!-- Footer -->
+    <footer id="footer"></footer>
+
+  </div>
+
+  <!-- ═══════ Scripts ═══════ -->
+  <!-- Three.js r128 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- GSAP -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
+  <!-- App modules (order matters) -->
+  <script src="js/data.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/globe.js"></script>
+  <script src="js/gate.js"></script>
+</body>
+</html>
