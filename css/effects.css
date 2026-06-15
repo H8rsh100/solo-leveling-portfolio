@@ -139,13 +139,13 @@
 /* ─── ARISE Section — Shadow Army Summoning ─── */
 #arise-section {
   position: relative;
-  min-height: 60vh;
+  min-height: 45vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 4rem 2rem;
+  padding: 2rem 2rem;
 }
 #arise-section canvas {
   position: absolute;
@@ -361,5 +361,6 @@
 @media (max-width: 768px) {
   .system-toast { max-width: 280px; font-size: 0.7rem; }
   .status-window { padding: 2rem 1.5rem; }
-  .arise-text { letter-spacing: 6px; }
+  .arise-text { letter-spacing: 6px; font-size: clamp(2rem, 8vw, 5rem); }
+  #quest-tracker { display: none; }
 }

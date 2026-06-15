@@ -183,13 +183,13 @@ section {
    HERO
    ══════════════════════════════════════ */
 #hero {
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding-top: 2rem;
+  padding: 2rem 2rem 0;
 }
 
 /* Rank badge */
