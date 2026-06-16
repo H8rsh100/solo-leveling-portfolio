@@ -1,56 +1,83 @@
-# ⬡ Solo Leveling Developer Portfolio
+# Solo Leveling Portfolio ⚔️
 
-> _"Class S Developer detected — Dungeon Gate opening..."_
+> A visceral, anime-inspired developer portfolio built with the aesthetic of Solo Leveling's System UI.
 
-A **Solo Leveling** themed developer portfolio featuring a cinematic gate intro animation, a 3D rotating tech stack globe, and dungeon-styled project cards.
+![Status](https://img.shields.io/badge/Status-S--Rank-gold?style=flat-square)
+![Stack](https://img.shields.io/badge/Stack-Vanilla_JS%20%7C%20Three.js%20%7C%20GSAP-blue?style=flat-square)
 
 ## ✨ Features
 
-- **🌀 Gate Intro** — Animated rift with particle burst, loading sequence, and Korean rune shatter
-- **🌐 3D Tech Globe** — Three.js wireframe sphere with orbiting tech stack labels
-- **⚔️ Hunter Stats** — Skill cards styled as Solo Leveling stat windows with rank badges
-- **🏰 Dungeon Clears** — Project cards with rank, description, and tech tags
-- **🎨 Full Aesthetic** — Scanlines, glitch text, corner brackets, glow effects
+### 🌀 Dungeon Gate Intro
+Full-screen canvas animation with plasma rift cracks, status messages ("Class S Developer detected"), Korean rune (始) shatter effect with particle burst.
 
-## 🛠 Tech Stack
+### 📊 Status Window
+Holographic hero card inspired by Solo Leveling's iconic System UI — hexagonal S-Rank badge, HP/MP/EXP bars, and hunter stats.
 
-| Technology | Purpose |
-|---|---|
-| HTML / CSS / JS | Core — zero framework overhead |
-| Three.js r128 | 3D globe with orbiting labels |
-| GSAP 3.12 | Gate intro timeline animation |
-| Google Fonts | Rajdhani + Share Tech Mono |
+### ⚔️ ARISE — Shadow Army Summoning
+Scroll-triggered cinematic section: shadow smoke rises from the ground, shadow soldier silhouettes emerge with glowing blue eyes, and "ARISE" slams onto screen with energy pulse and screen shake.
 
-## 📂 Structure
+### 🌐 Skill Constellation
+Three.js 3D globe with orbiting tech stack labels. Interactive raycasting tooltips show proficiency levels.
+
+### 👻 Shadow Monarch Cursor Trail
+Persistent blue/purple shadow particles follow your mouse cursor — like Sung Jin-Woo's shadow energy.
+
+### 🔔 System Notifications
+Scroll-triggered toast notifications that mimic the System's alerts from the anime.
+
+### 🏰 Dungeon Clear Cards
+Project cards styled as dungeon gate clearance reports with S-Rank / A-Rank difficulty badges.
+
+### 🎨 Aesthetic Details
+- Floating mana particles across the entire page
+- Korean rune watermarks on sections
+- Rift crack section dividers
+- 3D card tilt on hover
+- Mouse proximity glow effect
+- Scanline overlay & noise texture
+- Glitch effect on hunter name
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Core | HTML5, CSS3, Vanilla JavaScript |
+| 3D Engine | Three.js r128 |
+| Animation | GSAP 3.12.5 |
+| Typography | Google Fonts (Rajdhani, Share Tech Mono) |
+| Deployment | GitHub Pages |
+
+## 📁 File Structure
 
 ```
 solo-leveling-portfolio/
-├── index.html
+├── index.html          # Root HTML with CDN deps
 ├── css/
-│   └── style.css
+│   ├── style.css       # Core design system
+│   └── effects.css     # Enhanced Solo Leveling UI effects
 ├── js/
-│   ├── data.js       ← skills/projects data
-│   ├── gate.js       ← dungeon gate intro
-│   ├── globe.js      ← Three.js 3D globe
-│   └── main.js       ← content builder
+│   ├── gate.js         # Dungeon gate intro animation
+│   ├── globe.js        # Three.js 3D orbiting globe
+│   ├── effects.js      # Mana particles, cursor trail, ARISE, toasts
+│   ├── data.js         # Skills, projects, profile data
+│   └── main.js         # Content builders & scroll animations
 └── README.md
 ```
 
-## 🚀 Deploy
+## 🚀 Getting Started
 
-1. Push to GitHub
-2. Settings → Pages → Deploy from `main` branch (root)
-3. Live at `https://H8rsh100.github.io/solo-leveling-portfolio`
+```bash
+# Clone
+git clone https://github.com/H8rsh100/solo-leveling-portfolio.git
 
-## 🎨 Color Palette
+# Open locally (no build step needed)
+# Just open index.html in a browser, or use Live Server
+```
 
-| Token | Hex | Usage |
-|---|---|---|
-| Background | `#03000A` | Near-black base |
-| Gate Blue | `#4A90FF` | Primary glow, borders |
-| Mana Purple | `#9B59FF` | Accent, rift effects |
-| S-Rank Gold | `#FFD700` | Rank badges, highlights |
+## 📜 License
+
+MIT — Built by [@H8rsh100](https://github.com/H8rsh100)
 
 ---
 
-**Built by [@_h8rshh](https://github.com/H8rsh100)** — All Dungeons Cleared 🏴
+*「 System Notice: This hunter's data is classified 」*
