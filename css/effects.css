@@ -30,7 +30,7 @@
 .status-window {
   position: relative;
   border: 1px solid rgba(74, 144, 255, 0.2);
-  padding: 3rem 2.5rem;
+  padding: 3.5rem 2.5rem 2.5rem;
   background: rgba(5, 2, 18, 0.6);
   backdrop-filter: blur(8px);
   max-width: 650px;
@@ -40,21 +40,24 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  margin-top: 1.5rem;
 }
 .status-window::before {
-  content: '[ STATUS WINDOW ]';
+  content: '「 STATUS WINDOW 」';
   position: absolute;
-  top: -12px;
+  top: -10px;
   left: 50%;
   transform: translateX(-50%);
   font-family: 'Rajdhani', sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 700;
   color: #4A90FF;
-  letter-spacing: 4px;
+  letter-spacing: 5px;
   text-shadow: 0 0 20px rgba(74,144,255,0.5);
-  background: #03000A;
-  padding: 0 1rem;
+  background: var(--bg, #03000A);
+  padding: 2px 1.5rem;
+  white-space: nowrap;
+  z-index: 3;
 }
 .status-window::after {
   content: '';
@@ -146,6 +149,7 @@
   justify-content: center;
   overflow: hidden;
   padding: 2rem 2rem;
+  scroll-snap-align: center;
 }
 #arise-section canvas {
   position: absolute;
