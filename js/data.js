@@ -1,4 +1,5 @@
 // ─── Solo Leveling Portfolio — Data Module ───
+// Version: 2.0 — Enhanced with Status Window, ARISE, Shadow Cursor
 const PROFILE = {
   name: "HARSH",
   handle: "_h8rshh",
