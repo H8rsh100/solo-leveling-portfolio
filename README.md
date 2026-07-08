@@ -4,6 +4,7 @@
 
 ![Status](https://img.shields.io/badge/Status-S--Rank-gold?style=flat-square)
 ![Stack](https://img.shields.io/badge/Stack-Vanilla_JS%20%7C%20Three.js%20%7C%20GSAP-blue?style=flat-square)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 ## ✨ Features
 
@@ -11,16 +12,16 @@
 Full-screen canvas animation with plasma rift cracks, status messages ("Class S Developer detected"), Korean rune (始) shatter effect with particle burst.
 
 ### 📊 Status Window
-Holographic hero card inspired by Solo Leveling's iconic System UI — hexagonal S-Rank badge, HP/MP/EXP bars, and hunter stats.
+Holographic hero card inspired by Solo Leveling's iconic System UI - hexagonal S-Rank badge, HP/MP/EXP bars, and hunter stats.
 
-### ⚔️ ARISE — Shadow Army Summoning
+### ⚔️ ARISE - Shadow Army Summoning
 Scroll-triggered cinematic section: shadow smoke rises from the ground, shadow soldier silhouettes emerge with glowing blue eyes, and "ARISE" slams onto screen with energy pulse and screen shake.
 
 ### 🌐 Skill Constellation
 Three.js 3D globe with orbiting tech stack labels. Interactive raycasting tooltips show proficiency levels.
 
 ### 👻 Shadow Monarch Cursor Trail
-Persistent blue/purple shadow particles follow your mouse cursor — like Sung Jin-Woo's shadow energy.
+Persistent blue/purple shadow particles follow your mouse cursor - like Sung Jin-Woo's shadow energy.
 
 ### 🔔 System Notifications
 Scroll-triggered toast notifications that mimic the System's alerts from the anime.
@@ -74,9 +75,11 @@ git clone https://github.com/H8rsh100/solo-leveling-portfolio.git
 # Just open index.html in a browser, or use Live Server
 ```
 
-## 📜 License
+---
 
-MIT — Built by [@H8rsh100](https://github.com/H8rsh100)
+## License
+
+MIT - see LICENSE.
 
 ---
 
