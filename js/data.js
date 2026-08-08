@@ -11,7 +11,8 @@ const PROFILE = {
     { label: "Rank", value: "S" }
   ],
   links: {
-    github: "https://github.com/H8rsh100"
+    github: "https://github.com/H8rsh100",
+    instagram: "https://instagram.com/_h8rshh"
   }
 };
 
