@@ -131,18 +131,18 @@ const PROJECTS = [
     tags: ["Solidity", "Web3.js", "React", "IPFS"]
   },
   {
-    name: "AoT Encyclopedia",
+    name: "NetGuard",
     rank: "A",
-    description: "Interactive Attack on Titan archive with tactical dossiers, timeline mapping, and cinematic UI.",
-    github: "https://github.com/H8rsh100/AOT",
-    tags: ["HTML", "CSS", "JavaScript", "Web Audio"]
+    description: "Unified Cyber Security Operations Center (SOC) dashboard inspecting live packet traffic with ML anomaly detection and real-time firewall control.",
+    github: "https://github.com/H8rsh100/NetGuard",
+    tags: ["Python", "Flask", "Scapy", "ML", "WebSocket"]
   },
   {
-    name: "Crime Hotspot Predictor",
+    name: "Cryptex",
     rank: "A",
-    description: "ML-driven crime prediction model using spatial analysis and historical data for law enforcement.",
-    github: "https://github.com/H8rsh100/Crime-Hotspot-Predictor",
-    tags: ["Python", "Scikit-learn", "Folium", "Pandas"]
+    description: "Production-grade E2E encrypted 1:1 messaging application with RSA-2048 key exchange and AES-256-GCM transport security.",
+    github: "https://github.com/H8rsh100/Cryptex",
+    tags: ["Python", "Cryptography", "RSA", "AES-256", "WebSocket"]
   }
 ];
 
