@@ -148,6 +148,39 @@
   }
   animateRift();
 
+  // ─── Gate exit (guarded, callable from skip / fallback / timeline) ───
+  let gateFinished = false;
+  function finishGate() {
+    if (gateFinished) return;
+    gateFinished = true;
+    try { if (window.__gateTl && window.__gateTl.kill) window.__gateTl.kill(); } catch (e) {}
+    cancelAnimationFrame(animFrame);
+    overlay.style.display = 'none';
+    document.body.classList.add('gate-open');
+    if (typeof initMainContent === 'function') initMainContent();
+  }
+
+  // Skip button + ESC
+  const skipBtn = document.getElementById('gate-skip');
+  if (skipBtn) skipBtn.addEventListener('click', finishGate);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') finishGate();
+  });
+
+  // Reduced motion: skip cinematic intro
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    statusText.textContent = 'Motion reduced — gate bypassed.';
+    setTimeout(finishGate, 300);
+    return;
+  }
+
+  // No-GSAP fallback (CDN blocked): don't trap users on a black gate
+  if (typeof gsap === 'undefined') {
+    statusText.textContent = 'Effects offline — entering directly.';
+    setTimeout(finishGate, 800);
+    return;
+  }
+
   // ─── Sequence ───
   const messages = [
     "Scanning anomaly...",
@@ -157,6 +190,7 @@
   ];
 
   const tl = gsap.timeline({ delay: 0.5 });
+  window.__gateTl = tl;
 
   // Status messages
   messages.forEach((msg, i) => {
@@ -210,12 +244,6 @@
     opacity: 0,
     duration: 1.2,
     ease: 'power2.inOut',
-    onComplete: () => {
-      cancelAnimationFrame(animFrame);
-      overlay.style.display = 'none';
-      document.body.classList.add('gate-open');
-      // Trigger main content animations
-      if (typeof initMainContent === 'function') initMainContent();
-    }
+    onComplete: finishGate
   }, 5.8);
 })();

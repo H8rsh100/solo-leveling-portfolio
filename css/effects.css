@@ -366,5 +366,4 @@
   .system-toast { max-width: 280px; font-size: 0.7rem; }
   .status-window { padding: 2rem 1.5rem; }
   .arise-text { letter-spacing: 6px; font-size: clamp(2rem, 8vw, 5rem); }
-  #quest-tracker { display: none; }
 }

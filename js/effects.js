@@ -156,74 +156,7 @@ function initCursorTrail() {
   animateTrail();
 }
 
-// ═══ DAILY QUEST TRACKER ═══
-function initQuestTracker() {
-  const quests = [
-    { id: 'hero', text: 'View Hunter Profile', done: false },
-    { id: 'arise-section', text: 'Witness Shadow Extraction', done: false },
-    { id: 'globe-section', text: 'Inspect Skill Constellation', done: false },
-    { id: 'skills', text: 'Review Hunter Stats', done: false },
-    { id: 'projects', text: 'Clear All Dungeons', done: false }
-  ];
-
-  const tracker = document.createElement('div');
-  tracker.id = 'quest-tracker';
-  tracker.innerHTML = `
-    <div class="qt-header">
-      <span class="qt-icon">📜</span>
-      <span class="qt-title">DAILY QUEST</span>
-      <button class="qt-toggle" id="qt-toggle">─</button>
-    </div>
-    <div class="qt-body" id="qt-body">
-      ${quests.map((q, i) => `
-        <div class="qt-item" id="qt-${q.id}" data-index="${i}">
-          <span class="qt-check">☐</span>
-          <span class="qt-text">${q.text}</span>
-        </div>
-      `).join('')}
-      <div class="qt-reward">
-        <span class="qt-reward-label">Reward:</span>
-        <span class="qt-reward-value">☆ Recruit This Hunter</span>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(tracker);
-
-  // Toggle collapse
-  let collapsed = false;
-  document.getElementById('qt-toggle').addEventListener('click', () => {
-    collapsed = !collapsed;
-    document.getElementById('qt-body').style.display = collapsed ? 'none' : 'block';
-    document.getElementById('qt-toggle').textContent = collapsed ? '+' : '─';
-  });
-
-  // Observe each section
-  quests.forEach(q => {
-    const target = document.getElementById(q.id);
-    if (!target) return;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting && !q.done) {
-          q.done = true;
-          const el = document.getElementById('qt-' + q.id);
-          if (el) {
-            el.classList.add('qt-done');
-            el.querySelector('.qt-check').textContent = '☑';
-          }
-          // Check if all done
-          if (quests.every(qq => qq.done)) {
-            setTimeout(() => {
-              const reward = tracker.querySelector('.qt-reward');
-              if (reward) reward.classList.add('qt-reward-unlocked');
-            }, 500);
-          }
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.3 });
-    obs.observe(target);
-  });
-}
+// ─── Quest tracker removed (was dead code: never called, no styles) ───
 
 // ═══ ARISE — SHADOW ARMY SUMMONING ═══
 let ariseTriggered = false;

@@ -1,5 +1,5 @@
 // ─── Solo Leveling Portfolio — Data Module ───
-// Version: 2.1 — Updated with Rust, Bastion, FerriteDB, Overkube, SentryMesh, MigrationMind
+// Version: 2.2 — JARVIS, Monolith, BlastGraph, Attesta; TypeScript constellation
 const PROFILE = {
   name: "HARSH",
   handle: "_h8rshh",
@@ -22,8 +22,8 @@ const TECH_STACK = [
   { name: "Rust", proficiency: 82, rank: "A" },
   { name: "React", proficiency: 85, rank: "A" },
   { name: "FastAPI", proficiency: 88, rank: "A" },
-  { name: "MongoDB", proficiency: 80, rank: "A" },
-  { name: "Solidity", proficiency: 75, rank: "B" },
+  { name: "TypeScript", proficiency: 88, rank: "A" },
+  { name: "Solidity", proficiency: 78, rank: "A" },
   { name: "Kubernetes", proficiency: 78, rank: "A" },
   { name: "Docker", proficiency: 80, rank: "A" },
   { name: "LangChain", proficiency: 85, rank: "A" },
@@ -36,6 +36,7 @@ const SKILLS = {
     { name: "Python", rank: "S", level: 95 },
     { name: "C++", rank: "S", level: 90 },
     { name: "JavaScript", rank: "S", level: 90 },
+    { name: "TypeScript", rank: "A", level: 88 },
     { name: "Rust", rank: "A", level: 82 },
     { name: "SQL", rank: "A", level: 82 },
     { name: "Solidity", rank: "B", level: 75 }
@@ -43,6 +44,7 @@ const SKILLS = {
   "AI / ML": [
     { name: "OpenAI API", rank: "S", level: 90 },
     { name: "LangChain", rank: "A", level: 85 },
+    { name: "RAG", rank: "A", level: 86 },
     { name: "Scikit-learn", rank: "A", level: 83 },
     { name: "TensorFlow", rank: "A", level: 80 },
     { name: "NLP", rank: "A", level: 78 }
@@ -52,15 +54,16 @@ const SKILLS = {
     { name: "React", rank: "A", level: 85 },
     { name: "Node.js", rank: "A", level: 85 },
     { name: "Flask", rank: "A", level: 82 },
-    { name: "Next.js", rank: "B", level: 74 }
+    { name: "Next.js", rank: "A", level: 82 }
   ],
   "DevOps / Infra": [
     { name: "Docker", rank: "A", level: 80 },
     { name: "Kubernetes", rank: "A", level: 78 },
+    { name: "Terraform", rank: "B", level: 78 },
     { name: "GitOps", rank: "B", level: 72 }
   ],
   "Blockchain": [
-    { name: "Solidity", rank: "B", level: 75 },
+    { name: "Solidity", rank: "A", level: 78 },
     { name: "Web3.js", rank: "B", level: 72 },
     { name: "Hardhat", rank: "B", level: 70 },
     { name: "Smart Contracts", rank: "B", level: 74 }
@@ -74,6 +77,20 @@ const SKILLS = {
 };
 
 const PROJECTS = [
+  {
+    name: "JARVIS",
+    rank: "S",
+    description: "Voice-first personal AI assistant for Windows — wake-word listening, system control, and agent orchestration across apps, contracts, and packages.",
+    github: "https://github.com/H8rsh100/JARVIS",
+    tags: ["TypeScript", "AI", "Voice", "Agents", "pnpm"]
+  },
+  {
+    name: "Monolith",
+    rank: "S",
+    description: "Enterprise COBOL mainframe intelligence — Java AST parsing, NetworkX call graphs, risk scoring, LLM spec extraction, and Python/Java microservice codegen.",
+    github: "https://github.com/H8rsh100/Monolith",
+    tags: ["Python", "Java", "React", "LLM", "NetworkX", "COBOL"]
+  },
   {
     name: "Bastion",
     rank: "S",
@@ -96,11 +113,18 @@ const PROJECTS = [
     tags: ["Python", "LangChain", "FastAPI", "OpenAI"]
   },
   {
-    name: "CloudMortem",
-    rank: "S",
-    description: "Post-incident analysis platform for cloud infrastructure failures with automated root-cause detection.",
-    github: "https://github.com/H8rsh100/CloudMortem",
-    tags: ["Python", "AWS", "React", "MongoDB"]
+    name: "Attesta",
+    rank: "A",
+    description: "Decentralized identity on Sepolia — hash-commit credentials, wallet auth, on-chain revocation, and public QR verification.",
+    github: "https://github.com/H8rsh100/Attesta",
+    tags: ["Solidity", "Next.js", "Express", "Ethers.js", "Sepolia"]
+  },
+  {
+    name: "BlastGraph",
+    rank: "A",
+    description: "IaC blast-radius analyzer for Terraform/K8s — HCL/YAML parsing, NetworkX attack paths, CIS RAG, LLM narratives, and fix ranking.",
+    github: "https://github.com/H8rsh100/BlastGraph",
+    tags: ["Python", "Terraform", "Kubernetes", "RAG", "NetworkX"]
   },
   {
     name: "Overkube",
@@ -124,13 +148,6 @@ const PROJECTS = [
     tags: ["Python", "MySQL", "PostgreSQL", "AI", "AST", "CI/CD"]
   },
   {
-    name: "Chain-of-Custody",
-    rank: "A",
-    description: "Blockchain-based evidence tracking system ensuring tamper-proof chain of custody for digital forensics.",
-    github: "https://github.com/H8rsh100/Chain-of-Custody",
-    tags: ["Solidity", "Web3.js", "React", "IPFS"]
-  },
-  {
     name: "NetGuard",
     rank: "A",
     description: "Unified Cyber Security Operations Center (SOC) dashboard inspecting live packet traffic with ML anomaly detection and real-time firewall control.",
@@ -140,7 +157,7 @@ const PROJECTS = [
   {
     name: "Cryptex",
     rank: "A",
-    description: "Production-grade E2E encrypted 1:1 messaging application with RSA-2048 key exchange and AES-256-GCM transport security.",
+    description: "Production-grade E2E encrypted 1:1 messaging application with RSA-3072 key exchange and AES-256-GCM transport security.",
     github: "https://github.com/H8rsh100/Cryptex",
     tags: ["Python", "Cryptography", "RSA", "AES-256", "WebSocket"]
   }
