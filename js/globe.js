@@ -13,7 +13,8 @@
   function init() {
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera(55, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.z = 5;
+    // Pull back on narrow screens so orbiting labels stay in frame
+    camera.position.z = container.clientWidth < 560 ? 6.2 : 5;
 
     renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(container.clientWidth, container.clientHeight);
@@ -67,6 +68,8 @@
 
     // Events
     container.addEventListener('mousemove', onMouseMove);
+    container.addEventListener('mouseleave', hideTooltip);
+    window.addEventListener('scroll', hideTooltip, { passive: true });
     window.addEventListener('resize', onResize);
 
     animate();
@@ -98,7 +101,7 @@
       depthWrite: false
     });
     const sprite = new THREE.Sprite(mat);
-    sprite.scale.set(1.2, 0.3, 1);
+    sprite.scale.set(1.0, 0.25, 1);
     return sprite;
   }
 
@@ -106,7 +109,7 @@
     TECH_STACK.forEach((tech, i) => {
       const phi = Math.acos(-1 + (2 * i) / TECH_STACK.length);
       const theta = Math.sqrt(TECH_STACK.length * Math.PI) * phi;
-      const radius = 2.6;
+      const radius = 2.35;
 
       const color = tech.rank === 'S' ? '#FFD700' : tech.rank === 'A' ? '#4A90FF' : '#9B59FF';
       const sprite = createTextSprite(tech.name, color);
@@ -115,7 +118,7 @@
         phi: phi,
         theta: theta + i * 0.4,
         radius: radius,
-        baseScale: 1.2,
+        baseScale: 1.0,
         orbitSpeed: 0.0003 + Math.random() * 0.0002,
         orbitOffset: i * ((Math.PI * 2) / TECH_STACK.length)
       };
@@ -147,15 +150,20 @@
       tooltip.style.display = 'block';
       tooltip.style.left = e.clientX + 15 + 'px';
       tooltip.style.top = e.clientY - 10 + 'px';
-      hit.scale.set(1.6, 0.45, 1);
+      hit.scale.set(1.35, 0.34, 1);
     } else {
-      tooltip.style.display = 'none';
-      labels.forEach(l => l.scale.set(l.userData.baseScale, 0.3, 1));
+      hideTooltip();
     }
+  }
+
+  function hideTooltip() {
+    tooltip.style.display = 'none';
+    labels.forEach(l => l.scale.set(l.userData.baseScale, 0.25, 1));
   }
 
   function onResize() {
     camera.aspect = container.clientWidth / container.clientHeight;
+    camera.position.z = container.clientWidth < 560 ? 6.2 : 5;
     camera.updateProjectionMatrix();
     renderer.setSize(container.clientWidth, container.clientHeight);
   }

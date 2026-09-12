@@ -1,5 +1,5 @@
 // ─── Solo Leveling Portfolio — Data Module ───
-// Version: 2.2 — JARVIS, Monolith, BlastGraph, Attesta; TypeScript constellation
+// Version: 2.3 — 16-node constellation (Next.js, Terraform, RAG, Java)
 const PROFILE = {
   name: "HARSH",
   handle: "_h8rshh",
@@ -28,7 +28,11 @@ const TECH_STACK = [
   { name: "Docker", proficiency: 80, rank: "A" },
   { name: "LangChain", proficiency: 85, rank: "A" },
   { name: "JavaScript", proficiency: 90, rank: "S" },
-  { name: "Node.js", proficiency: 85, rank: "A" }
+  { name: "Node.js", proficiency: 85, rank: "A" },
+  { name: "Next.js", proficiency: 82, rank: "A" },
+  { name: "Terraform", proficiency: 78, rank: "B" },
+  { name: "RAG", proficiency: 86, rank: "A" },
+  { name: "Java", proficiency: 76, rank: "B" }
 ];
 
 const SKILLS = {

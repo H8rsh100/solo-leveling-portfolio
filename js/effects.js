@@ -86,6 +86,13 @@ function showSystemToast(msg) {
 
 // ═══ SECTION SCROLL TRIGGERS ═══
 function initSectionToasts() {
+  // First message greets on arrival — no scroll needed
+  setTimeout(() => {
+    if (toastIndex === 0) {
+      showSystemToast(systemMessages[0]);
+      toastIndex = 1;
+    }
+  }, 2200);
   const sections = document.querySelectorAll('#skills, #projects, #globe-section, #footer');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
