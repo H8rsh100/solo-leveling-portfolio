@@ -204,21 +204,26 @@ function initArise() {
     }
   }
 
-  // Shadow soldier eyes
+  // Shadow soldiers — hooded variants with pillars, horns, eye flicker
   let soldiers = [];
+  let embers = [];
   function spawnSoldiers() {
-    const count = Math.floor(aW / 60);
+    const count = Math.floor(aW / 55);
     for (let i = 0; i < count; i++) {
       soldiers.push({
         x: (aW / (count + 1)) * (i + 1) + (Math.random() - 0.5) * 30,
-        targetY: aH * 0.45 + Math.random() * (aH * 0.3),
-        y: aH + 50,
+        targetY: aH * 0.42 + Math.random() * (aH * 0.3),
+        y: aH + 60,
         eyeGap: 5 + Math.random() * 3,
         eyeSize: 2 + Math.random() * 2,
-        speed: 0.8 + Math.random() * 1.2,
         delay: Math.random() * 40,
         frame: 0,
-        height: 50 + Math.random() * 60
+        height: 60 + Math.random() * 70,
+        width: 13 + Math.random() * 8,
+        horns: Math.random() < 0.3,
+        pillar: Math.random() < 0.45,
+        purple: Math.random() < 0.25,
+        phase: Math.random() * Math.PI * 2
       });
     }
   }
@@ -226,6 +231,7 @@ function initArise() {
   let ariseAnimating = false;
   function animateArise() {
     if (!ariseAnimating) return;
+    const t = performance.now() / 1000;
     aCtx.clearRect(0, 0, aW, aH);
 
     // Spawn smoke
@@ -233,33 +239,105 @@ function initArise() {
     smokeParticles.forEach(p => { p.update(); p.draw(); });
     smokeParticles = smokeParticles.filter(p => p.life > 0);
 
+    // Rising embers
+    for (let i = 0; i < 2; i++) {
+      embers.push({
+        x: Math.random() * aW,
+        y: aH + 5,
+        vy: -(0.6 + Math.random() * 1.4),
+        sway: Math.random() * Math.PI * 2,
+        size: 0.8 + Math.random() * 1.6,
+        life: 1,
+        col: Math.random() < 0.12 ? '255,215,0' : (Math.random() < 0.5 ? '74,144,255' : '155,89,255')
+      });
+    }
+    for (let i = embers.length - 1; i >= 0; i--) {
+      const e = embers[i];
+      e.y += e.vy; e.sway += 0.05; e.x += Math.sin(e.sway) * 0.4; e.life -= 0.004;
+      if (e.life <= 0 || e.y < -10) { embers.splice(i, 1); continue; }
+      const tw = 0.4 + 0.6 * Math.abs(Math.sin(e.sway * 2));
+      aCtx.save();
+      aCtx.globalAlpha = e.life * tw;
+      aCtx.shadowColor = 'rgba(' + e.col + ',0.9)';
+      aCtx.shadowBlur = 8;
+      aCtx.fillStyle = 'rgba(' + e.col + ',1)';
+      aCtx.beginPath();
+      aCtx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
+      aCtx.fill();
+      aCtx.restore();
+    }
+    if (embers.length > 220) embers.splice(0, embers.length - 220);
+
+    // Ground fog band
+    const fogA = 0.10 + 0.03 * Math.sin(t * 0.8);
+    const fog = aCtx.createLinearGradient(0, aH * 0.68, 0, aH);
+    fog.addColorStop(0, 'rgba(74,144,255,0)');
+    fog.addColorStop(1, 'rgba(74,144,255,' + fogA.toFixed(3) + ')');
+    aCtx.fillStyle = fog;
+    aCtx.fillRect(0, aH * 0.68, aW, aH * 0.32);
+
     // Draw soldiers
     soldiers.forEach(s => {
       s.frame++;
       if (s.frame < s.delay) return;
-      if (s.y > s.targetY) s.y -= s.speed;
+      if (s.y > s.targetY) s.y -= Math.max(0.35, (s.y - s.targetY) * 0.035);
+      const rise = Math.min(1, (s.frame - s.delay) / 40);
+      const col = s.purple ? '155,89,255' : '74,144,255';
+      const top = s.y - s.height, w = s.width;
 
-      // Shadow body
       aCtx.save();
-      const bodyGrad = aCtx.createLinearGradient(s.x, s.y - s.height, s.x, s.y + 20);
-      bodyGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
-      bodyGrad.addColorStop(0.3, 'rgba(20, 10, 40, 0.4)');
-      bodyGrad.addColorStop(1, 'rgba(10, 5, 20, 0.6)');
-      aCtx.fillStyle = bodyGrad;
-      aCtx.beginPath();
-      aCtx.ellipse(s.x, s.y, 15, s.height, 0, 0, Math.PI * 2);
-      aCtx.fill();
+      aCtx.globalAlpha = rise;
 
-      // Eyes
-      const eyeY = s.y - s.height * 0.55;
-      const alpha = Math.min(1, (s.frame - s.delay) / 30);
-      aCtx.globalAlpha = alpha;
-      aCtx.shadowColor = '#4A90FF';
-      aCtx.shadowBlur = 12;
-      aCtx.fillStyle = '#4A90FF';
+      // Light pillar behind chosen soldiers
+      if (s.pillar) {
+        const pg = aCtx.createLinearGradient(0, 0, 0, s.y);
+        pg.addColorStop(0, 'rgba(' + col + ',0)');
+        pg.addColorStop(1, 'rgba(' + col + ',0.20)');
+        aCtx.fillStyle = pg;
+        aCtx.fillRect(s.x - 3, 0, 6, s.y);
+      }
+
+      // Hooded cloak silhouette
+      const bg = aCtx.createLinearGradient(s.x, top, s.x, s.y + 20);
+      bg.addColorStop(0, 'rgba(4, 2, 12, 0.1)');
+      bg.addColorStop(0.4, 'rgba(16, 8, 34, 0.75)');
+      bg.addColorStop(1, 'rgba(6, 3, 14, 0.9)');
+      aCtx.fillStyle = bg;
       aCtx.beginPath();
-      aCtx.arc(s.x - s.eyeGap, eyeY, s.eyeSize, 0, Math.PI * 2);
-      aCtx.arc(s.x + s.eyeGap, eyeY, s.eyeSize, 0, Math.PI * 2);
+      aCtx.moveTo(s.x, top - 8);
+      aCtx.bezierCurveTo(s.x + w, top + 6, s.x + w * 0.9, top + s.height * 0.5, s.x + w * 0.7, s.y + 18);
+      aCtx.lineTo(s.x - w * 0.7, s.y + 18);
+      aCtx.bezierCurveTo(s.x - w * 0.9, top + s.height * 0.5, s.x - w, top + 6, s.x, top - 8);
+      aCtx.fill();
+      aCtx.strokeStyle = 'rgba(' + col + ',0.35)';
+      aCtx.lineWidth = 1;
+      aCtx.stroke();
+
+      // Horns on elites
+      if (s.horns) {
+        aCtx.fillStyle = 'rgba(8, 4, 18, 0.95)';
+        aCtx.beginPath();
+        aCtx.moveTo(s.x - 6, top + 4); aCtx.lineTo(s.x - 13, top - 12); aCtx.lineTo(s.x - 2, top - 1);
+        aCtx.moveTo(s.x + 6, top + 4); aCtx.lineTo(s.x + 13, top - 12); aCtx.lineTo(s.x + 2, top - 1);
+        aCtx.fill();
+      }
+
+      // Eyes — flickering glow with white-hot core
+      const flick = 0.72 + 0.28 * Math.sin(t * 6 + s.phase);
+      const eyeY = top + s.height * 0.28;
+      aCtx.globalAlpha = rise * flick;
+      aCtx.shadowColor = 'rgb(' + col + ')';
+      aCtx.shadowBlur = 14;
+      aCtx.fillStyle = 'rgb(' + col + ')';
+      aCtx.beginPath();
+      aCtx.ellipse(s.x - s.eyeGap, eyeY, s.eyeSize + 0.8, s.eyeSize * 0.7, 0, 0, Math.PI * 2);
+      aCtx.ellipse(s.x + s.eyeGap, eyeY, s.eyeSize + 0.8, s.eyeSize * 0.7, 0, 0, Math.PI * 2);
+      aCtx.fill();
+      aCtx.shadowBlur = 0;
+      aCtx.fillStyle = 'rgba(255,255,255,0.9)';
+      aCtx.beginPath();
+      aCtx.arc(s.x - s.eyeGap, eyeY, s.eyeSize * 0.35, 0, Math.PI * 2);
+      aCtx.arc(s.x + s.eyeGap, eyeY, s.eyeSize * 0.35, 0, Math.PI * 2);
       aCtx.fill();
       aCtx.restore();
     });

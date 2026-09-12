@@ -142,7 +142,7 @@
 /* ─── ARISE Section — Shadow Army Summoning ─── */
 #arise-section {
   position: relative;
-  min-height: 45vh;
+  min-height: 58vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -366,29 +366,6 @@
   .system-toast { max-width: 280px; font-size: 0.7rem; }
   .status-window { padding: 2rem 1.5rem; }
   .arise-text { letter-spacing: 6px; font-size: clamp(2rem, 8vw, 5rem); }
-}
-
-/* ─── System Voice Toggle ─── */
-#voice-toggle {
-  position: fixed;
-  left: 20px;
-  bottom: 20px;
-  z-index: 9990;
-  background: rgba(5, 2, 18, 0.85);
-  border: 1px solid rgba(74, 144, 255, 0.25);
-  color: #C8D6E5;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 2px;
-  padding: 0.6rem 1rem;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
-}
-#voice-toggle:hover {
-  border-color: #4A90FF;
-  box-shadow: 0 0 20px rgba(74,144,255,0.3);
-  color: #fff;
 }
 
 /* ─── ARISE Easter Egg Overlay ─── */
