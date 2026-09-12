@@ -171,6 +171,7 @@ function buildFooter() {
   footer.innerHTML = `
     <div class="footer-rune">始</div>
     <p class="footer-text">「 System Notice: This hunter's data is classified 」</p>
+    <p class="footer-hint">「 hidden command: ARISE 」</p>
     <p class="footer-copy">&copy; ${new Date().getFullYear()} ${PROFILE.handle} — All Dungeons Cleared</p>
   `;
 }
