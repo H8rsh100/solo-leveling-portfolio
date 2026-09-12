@@ -29,7 +29,7 @@
       this.vy = (Math.random() - 0.5) * 0.5;
       this.life = Math.random() * 60 + 30;
       this.maxLife = this.life;
-      this.size = Math.random() * 3 + 1;
+      this.size = Math.random() * 2.2 + 0.6;
       this.color = Math.random() > 0.5 ? '#4A90FF' : '#9B59FF';
     }
     update() {
@@ -87,15 +87,16 @@
   }
 
   // Init rift particles
-  for (let i = 0; i < 80; i++) {
+  for (let i = 0; i < 100; i++) {
     riftParticles.push(new RiftParticle());
   }
 
-  // ─── Draw rift crack ───
+  // ─── Draw rift crack — layered: ambient glow, colored edge, white-hot core ───
   function drawRift(openness) {
     ctx.save();
     ctx.translate(W / 2, H / 2);
-    // Glow
+    ctx.globalCompositeOperation = 'lighter';
+    // Ambient glow
     const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, 200 * openness);
     grad.addColorStop(0, 'rgba(74, 144, 255, 0.4)');
     grad.addColorStop(0.5, 'rgba(155, 89, 255, 0.15)');
@@ -103,31 +104,47 @@
     ctx.fillStyle = grad;
     ctx.fillRect(-300, -H / 2, 600, H);
 
-    // Rift line
-    ctx.strokeStyle = '#4A90FF';
-    ctx.lineWidth = 2 + openness * 3;
-    ctx.shadowColor = '#4A90FF';
-    ctx.shadowBlur = 30 + openness * 20;
-    ctx.beginPath();
-    const segments = 20;
+    // Precompute the main crack path so every layer shares one crisp edge
+    const now = performance.now();
+    const segments = 36;
+    const pts = [];
     for (let i = 0; i <= segments; i++) {
       const t = i / segments;
-      const y = (t - 0.5) * H * 0.7;
-      const wobble = Math.sin(t * 8 + performance.now() * 0.003) * (8 * openness);
-      if (i === 0) ctx.moveTo(wobble, y);
-      else ctx.lineTo(wobble, y);
+      pts.push({
+        y: (t - 0.5) * H * 0.7,
+        x: Math.sin(t * 8 + now * 0.003) * (8 * openness)
+      });
     }
-    ctx.stroke();
+    function strokePts(offsetX, style, width, blur) {
+      ctx.strokeStyle = style;
+      ctx.lineWidth = width;
+      ctx.shadowColor = style;
+      ctx.shadowBlur = blur;
+      ctx.beginPath();
+      pts.forEach((p, i) => {
+        if (i === 0) ctx.moveTo(p.x + offsetX, p.y);
+        else ctx.lineTo(p.x + offsetX, p.y);
+      });
+      ctx.stroke();
+    }
+
+    // Wide soft halo
+    strokePts(0, 'rgba(74, 144, 255, 0.25)', 7 + openness * 5, 30 + openness * 20);
+    // Colored edge
+    strokePts(0, '#4A90FF', 2 + openness * 2, 22 + openness * 14);
+    // White-hot core
+    strokePts(0, 'rgba(255, 255, 255, 0.9)', 1, 10);
 
     // Second rift line (purple)
     ctx.strokeStyle = '#9B59FF';
     ctx.shadowColor = '#9B59FF';
-    ctx.lineWidth = 1 + openness * 2;
+    ctx.shadowBlur = 18 + openness * 12;
+    ctx.lineWidth = 1 + openness * 1.5;
     ctx.beginPath();
     for (let i = 0; i <= segments; i++) {
       const t = i / segments;
       const y = (t - 0.5) * H * 0.7;
-      const wobble = Math.sin(t * 6 + performance.now() * 0.004 + 1) * (6 * openness);
+      const wobble = Math.sin(t * 6 + now * 0.004 + 1) * (6 * openness);
       if (i === 0) ctx.moveTo(wobble + 3, y);
       else ctx.lineTo(wobble + 3, y);
     }
