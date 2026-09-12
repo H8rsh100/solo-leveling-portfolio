@@ -1,5 +1,5 @@
 // ─── Solo Leveling Portfolio — Data Module ───
-// Version: 2.3 — 16-node constellation (Next.js, Terraform, RAG, Java)
+// Version: 2.4 — 20-node constellation (OpenAI, TensorFlow, Scapy, Cryptography)
 const PROFILE = {
   name: "HARSH",
   handle: "_h8rshh",
@@ -32,7 +32,11 @@ const TECH_STACK = [
   { name: "Next.js", proficiency: 82, rank: "A" },
   { name: "Terraform", proficiency: 78, rank: "B" },
   { name: "RAG", proficiency: 86, rank: "A" },
-  { name: "Java", proficiency: 76, rank: "B" }
+  { name: "Java", proficiency: 76, rank: "B" },
+  { name: "OpenAI", proficiency: 90, rank: "S" },
+  { name: "TensorFlow", proficiency: 80, rank: "A" },
+  { name: "Scapy", proficiency: 80, rank: "A" },
+  { name: "Cryptography", proficiency: 85, rank: "A" }
 ];
 
 const SKILLS = {

@@ -22,6 +22,7 @@
     container.appendChild(renderer.domElement);
 
     globeGroup = new THREE.Group();
+    globeGroup.rotation.z = 0.18;
     scene.add(globeGroup);
 
     // Wireframe sphere
@@ -107,9 +108,11 @@
 
   function createLabels() {
     TECH_STACK.forEach((tech, i) => {
-      const phi = Math.acos(-1 + (2 * i) / TECH_STACK.length);
+      // Offset by half a step so no node sits exactly on a pole (poles lie on
+      // the Y rotation axis and would otherwise hang motionless)
+      const phi = Math.acos(-1 + (2 * (i + 0.5)) / TECH_STACK.length);
       const theta = Math.sqrt(TECH_STACK.length * Math.PI) * phi;
-      const radius = 2.35;
+      const radius = 2.45;
 
       const color = tech.rank === 'S' ? '#FFD700' : tech.rank === 'A' ? '#4A90FF' : '#9B59FF';
       const sprite = createTextSprite(tech.name, color);
