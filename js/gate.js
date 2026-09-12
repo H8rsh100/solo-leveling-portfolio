@@ -7,6 +7,14 @@
   const progressBar = document.getElementById('gate-progress-fill');
   const runeEl = document.getElementById('gate-rune');
 
+  // Red Gate variant — 10% spawn chance
+  const RED_GATE = Math.random() < 0.10;
+  const COL_A = RED_GATE ? '#FF3040' : '#4A90FF';
+  const COL_B = RED_GATE ? '#FF7A00' : '#9B59FF';
+  const RGB_A = RED_GATE ? '255,48,64' : '74,144,255';
+  const RGB_B = RED_GATE ? '255,122,0' : '155,89,255';
+  if (RED_GATE) overlay.classList.add('red-gate');
+
   let W, H, particles = [], riftParticles = [];
   let animFrame;
 
@@ -30,7 +38,7 @@
       this.life = Math.random() * 60 + 30;
       this.maxLife = this.life;
       this.size = Math.random() * 3 + 1;
-      this.color = Math.random() > 0.5 ? '#4A90FF' : '#9B59FF';
+      this.color = Math.random() > 0.5 ? COL_A : COL_B;
     }
     update() {
       this.x += this.vx;
@@ -63,7 +71,7 @@
       this.life = Math.random() * 40 + 20;
       this.maxLife = this.life;
       this.size = Math.random() * 4 + 1;
-      this.color = ['#4A90FF', '#9B59FF', '#FFD700', '#fff'][Math.floor(Math.random() * 4)];
+      this.color = [COL_A, COL_B, '#FFD700', '#fff'][Math.floor(Math.random() * 4)];
     }
     update() {
       this.x += this.vx;
@@ -97,16 +105,16 @@
     ctx.translate(W / 2, H / 2);
     // Glow
     const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, 200 * openness);
-    grad.addColorStop(0, 'rgba(74, 144, 255, 0.4)');
-    grad.addColorStop(0.5, 'rgba(155, 89, 255, 0.15)');
+    grad.addColorStop(0, 'rgba(' + RGB_A + ', 0.4)');
+    grad.addColorStop(0.5, 'rgba(' + RGB_B + ', 0.15)');
     grad.addColorStop(1, 'rgba(0, 0, 0, 0)');
     ctx.fillStyle = grad;
     ctx.fillRect(-300, -H / 2, 600, H);
 
     // Rift line
-    ctx.strokeStyle = '#4A90FF';
+    ctx.strokeStyle = COL_A;
     ctx.lineWidth = 2 + openness * 3;
-    ctx.shadowColor = '#4A90FF';
+    ctx.shadowColor = COL_A;
     ctx.shadowBlur = 30 + openness * 20;
     ctx.beginPath();
     const segments = 20;
@@ -120,8 +128,8 @@
     ctx.stroke();
 
     // Second rift line (purple)
-    ctx.strokeStyle = '#9B59FF';
-    ctx.shadowColor = '#9B59FF';
+    ctx.strokeStyle = COL_B;
+    ctx.shadowColor = COL_B;
     ctx.lineWidth = 1 + openness * 2;
     ctx.beginPath();
     for (let i = 0; i <= segments; i++) {
@@ -184,7 +192,7 @@
     "Scanning anomaly...",
     "Mana signature detected...",
     "Threat level: IMMEASURABLE",
-    "Class S Developer detected"
+    RED_GATE ? "RED GATE DETECTED — survival not guaranteed" : "Class S Developer detected"
   ];
 
   const tl = gsap.timeline({ delay: 0.5 });

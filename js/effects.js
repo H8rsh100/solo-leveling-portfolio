@@ -58,8 +58,7 @@ animateMana();
 const systemMessages = [
   { text: '「 System 」 New hunter profile loaded.', icon: '⚔️' },
   { text: '「 System 」 Skill data synchronized.', icon: '📊' },
-  { text: '「 System 」 Dungeon records accessed.', icon: '🏰' },
-  { text: '「 System 」 Shadow extraction complete.', icon: '👁️' }
+  { text: '「 System 」 Dungeon records accessed.', icon: '🏰' }
 ];
 let toastIndex = 0;
 let toastContainer = null;
@@ -204,26 +203,21 @@ function initArise() {
     }
   }
 
-  // Shadow soldiers — hooded variants with pillars, horns, eye flicker
+  // Shadow soldier eyes
   let soldiers = [];
-  let embers = [];
   function spawnSoldiers() {
-    const count = Math.floor(aW / 55);
+    const count = Math.floor(aW / 60);
     for (let i = 0; i < count; i++) {
       soldiers.push({
         x: (aW / (count + 1)) * (i + 1) + (Math.random() - 0.5) * 30,
-        targetY: aH * 0.42 + Math.random() * (aH * 0.3),
-        y: aH + 60,
+        targetY: aH * 0.45 + Math.random() * (aH * 0.3),
+        y: aH + 50,
         eyeGap: 5 + Math.random() * 3,
         eyeSize: 2 + Math.random() * 2,
+        speed: 0.8 + Math.random() * 1.2,
         delay: Math.random() * 40,
         frame: 0,
-        height: 60 + Math.random() * 70,
-        width: 13 + Math.random() * 8,
-        horns: Math.random() < 0.3,
-        pillar: Math.random() < 0.45,
-        purple: Math.random() < 0.25,
-        phase: Math.random() * Math.PI * 2
+        height: 50 + Math.random() * 60
       });
     }
   }
@@ -231,7 +225,6 @@ function initArise() {
   let ariseAnimating = false;
   function animateArise() {
     if (!ariseAnimating) return;
-    const t = performance.now() / 1000;
     aCtx.clearRect(0, 0, aW, aH);
 
     // Spawn smoke
@@ -239,105 +232,33 @@ function initArise() {
     smokeParticles.forEach(p => { p.update(); p.draw(); });
     smokeParticles = smokeParticles.filter(p => p.life > 0);
 
-    // Rising embers
-    for (let i = 0; i < 2; i++) {
-      embers.push({
-        x: Math.random() * aW,
-        y: aH + 5,
-        vy: -(0.6 + Math.random() * 1.4),
-        sway: Math.random() * Math.PI * 2,
-        size: 0.8 + Math.random() * 1.6,
-        life: 1,
-        col: Math.random() < 0.12 ? '255,215,0' : (Math.random() < 0.5 ? '74,144,255' : '155,89,255')
-      });
-    }
-    for (let i = embers.length - 1; i >= 0; i--) {
-      const e = embers[i];
-      e.y += e.vy; e.sway += 0.05; e.x += Math.sin(e.sway) * 0.4; e.life -= 0.004;
-      if (e.life <= 0 || e.y < -10) { embers.splice(i, 1); continue; }
-      const tw = 0.4 + 0.6 * Math.abs(Math.sin(e.sway * 2));
-      aCtx.save();
-      aCtx.globalAlpha = e.life * tw;
-      aCtx.shadowColor = 'rgba(' + e.col + ',0.9)';
-      aCtx.shadowBlur = 8;
-      aCtx.fillStyle = 'rgba(' + e.col + ',1)';
-      aCtx.beginPath();
-      aCtx.arc(e.x, e.y, e.size, 0, Math.PI * 2);
-      aCtx.fill();
-      aCtx.restore();
-    }
-    if (embers.length > 220) embers.splice(0, embers.length - 220);
-
-    // Ground fog band
-    const fogA = 0.10 + 0.03 * Math.sin(t * 0.8);
-    const fog = aCtx.createLinearGradient(0, aH * 0.68, 0, aH);
-    fog.addColorStop(0, 'rgba(74,144,255,0)');
-    fog.addColorStop(1, 'rgba(74,144,255,' + fogA.toFixed(3) + ')');
-    aCtx.fillStyle = fog;
-    aCtx.fillRect(0, aH * 0.68, aW, aH * 0.32);
-
     // Draw soldiers
     soldiers.forEach(s => {
       s.frame++;
       if (s.frame < s.delay) return;
-      if (s.y > s.targetY) s.y -= Math.max(0.35, (s.y - s.targetY) * 0.035);
-      const rise = Math.min(1, (s.frame - s.delay) / 40);
-      const col = s.purple ? '155,89,255' : '74,144,255';
-      const top = s.y - s.height, w = s.width;
+      if (s.y > s.targetY) s.y -= s.speed;
 
+      // Shadow body
       aCtx.save();
-      aCtx.globalAlpha = rise;
-
-      // Light pillar behind chosen soldiers
-      if (s.pillar) {
-        const pg = aCtx.createLinearGradient(0, 0, 0, s.y);
-        pg.addColorStop(0, 'rgba(' + col + ',0)');
-        pg.addColorStop(1, 'rgba(' + col + ',0.20)');
-        aCtx.fillStyle = pg;
-        aCtx.fillRect(s.x - 3, 0, 6, s.y);
-      }
-
-      // Hooded cloak silhouette
-      const bg = aCtx.createLinearGradient(s.x, top, s.x, s.y + 20);
-      bg.addColorStop(0, 'rgba(4, 2, 12, 0.1)');
-      bg.addColorStop(0.4, 'rgba(16, 8, 34, 0.75)');
-      bg.addColorStop(1, 'rgba(6, 3, 14, 0.9)');
-      aCtx.fillStyle = bg;
+      const bodyGrad = aCtx.createLinearGradient(s.x, s.y - s.height, s.x, s.y + 20);
+      bodyGrad.addColorStop(0, 'rgba(0, 0, 0, 0)');
+      bodyGrad.addColorStop(0.3, 'rgba(20, 10, 40, 0.4)');
+      bodyGrad.addColorStop(1, 'rgba(10, 5, 20, 0.6)');
+      aCtx.fillStyle = bodyGrad;
       aCtx.beginPath();
-      aCtx.moveTo(s.x, top - 8);
-      aCtx.bezierCurveTo(s.x + w, top + 6, s.x + w * 0.9, top + s.height * 0.5, s.x + w * 0.7, s.y + 18);
-      aCtx.lineTo(s.x - w * 0.7, s.y + 18);
-      aCtx.bezierCurveTo(s.x - w * 0.9, top + s.height * 0.5, s.x - w, top + 6, s.x, top - 8);
+      aCtx.ellipse(s.x, s.y, 15, s.height, 0, 0, Math.PI * 2);
       aCtx.fill();
-      aCtx.strokeStyle = 'rgba(' + col + ',0.35)';
-      aCtx.lineWidth = 1;
-      aCtx.stroke();
 
-      // Horns on elites
-      if (s.horns) {
-        aCtx.fillStyle = 'rgba(8, 4, 18, 0.95)';
-        aCtx.beginPath();
-        aCtx.moveTo(s.x - 6, top + 4); aCtx.lineTo(s.x - 13, top - 12); aCtx.lineTo(s.x - 2, top - 1);
-        aCtx.moveTo(s.x + 6, top + 4); aCtx.lineTo(s.x + 13, top - 12); aCtx.lineTo(s.x + 2, top - 1);
-        aCtx.fill();
-      }
-
-      // Eyes — flickering glow with white-hot core
-      const flick = 0.72 + 0.28 * Math.sin(t * 6 + s.phase);
-      const eyeY = top + s.height * 0.28;
-      aCtx.globalAlpha = rise * flick;
-      aCtx.shadowColor = 'rgb(' + col + ')';
-      aCtx.shadowBlur = 14;
-      aCtx.fillStyle = 'rgb(' + col + ')';
+      // Eyes
+      const eyeY = s.y - s.height * 0.55;
+      const alpha = Math.min(1, (s.frame - s.delay) / 30);
+      aCtx.globalAlpha = alpha;
+      aCtx.shadowColor = '#4A90FF';
+      aCtx.shadowBlur = 12;
+      aCtx.fillStyle = '#4A90FF';
       aCtx.beginPath();
-      aCtx.ellipse(s.x - s.eyeGap, eyeY, s.eyeSize + 0.8, s.eyeSize * 0.7, 0, 0, Math.PI * 2);
-      aCtx.ellipse(s.x + s.eyeGap, eyeY, s.eyeSize + 0.8, s.eyeSize * 0.7, 0, 0, Math.PI * 2);
-      aCtx.fill();
-      aCtx.shadowBlur = 0;
-      aCtx.fillStyle = 'rgba(255,255,255,0.9)';
-      aCtx.beginPath();
-      aCtx.arc(s.x - s.eyeGap, eyeY, s.eyeSize * 0.35, 0, Math.PI * 2);
-      aCtx.arc(s.x + s.eyeGap, eyeY, s.eyeSize * 0.35, 0, Math.PI * 2);
+      aCtx.arc(s.x - s.eyeGap, eyeY, s.eyeSize, 0, Math.PI * 2);
+      aCtx.arc(s.x + s.eyeGap, eyeY, s.eyeSize, 0, Math.PI * 2);
       aCtx.fill();
       aCtx.restore();
     });
@@ -407,6 +328,86 @@ shakeStyle.textContent = `
 }`;
 document.head.appendChild(shakeStyle);
 
+// ═══ LEVEL UP — gold system window on section reveal ═══
+let hunterLevel = 100;
+let audioCtx = null;
+function ensureAudio() {
+  try {
+    if (!audioCtx) {
+      const AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return null;
+      audioCtx = new AC();
+    }
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    return audioCtx.state === 'running' ? audioCtx : null;
+  } catch (e) { return null; }
+}
+['pointerdown', 'keydown'].forEach(ev => document.addEventListener(ev, ensureAudio, { passive: true }));
+
+function playLevelChime() {
+  const ctx = ensureAudio();
+  if (!ctx) return;
+  try {
+    [880, 1174.66, 1567.98].forEach((f, i) => {
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type = 'sine';
+      o.frequency.value = f;
+      const at = ctx.currentTime + i * 0.12;
+      g.gain.setValueAtTime(0, at);
+      g.gain.linearRampToValueAtTime(0.12, at + 0.02);
+      g.gain.exponentialRampToValueAtTime(0.001, at + 0.35);
+      o.connect(g); g.connect(ctx.destination);
+      o.start(at); o.stop(at + 0.4);
+    });
+  } catch (e) {}
+}
+
+function showLevelUp() {
+  const lvl = hunterLevel++;
+  const pool = ['STR', 'VIT', 'AGI', 'INT', 'SEN'];
+  const picks = [];
+  while (picks.length < 3) {
+    const s = pool[Math.floor(Math.random() * pool.length)];
+    if (!picks.includes(s)) picks.push(s);
+  }
+  const win = document.createElement('div');
+  win.className = 'levelup-window';
+  win.innerHTML = '<div class="lu-title">「 LEVEL UP 」</div><div class="lu-level">Lv. ' + lvl + ' — all stats increased</div><div class="lu-stats"></div>';
+  document.body.appendChild(win);
+  requestAnimationFrame(() => win.classList.add('show'));
+  playLevelChime();
+  const box = win.querySelector('.lu-stats');
+  picks.forEach((s, i) => {
+    setTimeout(() => {
+      const line = document.createElement('div');
+      line.className = 'lu-stat';
+      line.textContent = s + ' +' + (1 + Math.floor(Math.random() * 3));
+      box.appendChild(line);
+    }, 350 + i * 300);
+  });
+  setTimeout(() => {
+    win.classList.remove('show');
+    win.classList.add('hide');
+    setTimeout(() => win.remove(), 500);
+  }, 2600);
+}
+
+function initLevelUp() {
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        showLevelUp();
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.35 });
+  ['#globe-section', '#skills', '#projects'].forEach(sel => {
+    const el = document.querySelector(sel);
+    if (el) obs.observe(el);
+  });
+}
+
 // ═══ CARD 3D TILT ON HOVER ═══
 function initCardTilt() {
   document.addEventListener('mousemove', (e) => {
@@ -447,12 +448,57 @@ function initProximityGlow() {
   });
 }
 
+// ═══ BOSS HP — click dungeon cards to slay the boss ═══
+function initBossHp() {
+  document.querySelectorAll('.project-card').forEach(card => {
+    const bar = card.querySelector('.boss-hp');
+    if (!bar || card.dataset.bossInit) return;
+    card.dataset.bossInit = '1';
+    let hp = parseInt(bar.dataset.hp, 10);
+    const max = parseInt(bar.dataset.max, 10);
+    const fill = bar.querySelector('.boss-hp-fill');
+    const num = bar.querySelector('.boss-hp-num');
+    card.style.cursor = 'crosshair';
+    card.addEventListener('click', (e) => {
+      if (card.classList.contains('cleared')) return;
+      const crit = Math.random() < 0.2;
+      const dmg = Math.floor((400 + Math.random() * 600) * (crit ? 2 : 1));
+      hp = Math.max(0, hp - dmg);
+      fill.style.width = (hp / max * 100) + '%';
+      num.textContent = hp + ' / ' + max;
+      spawnDmgNum(card, e, dmg, crit);
+      if (hp <= 0) {
+        card.classList.add('cleared');
+        const tag = document.createElement('div');
+        tag.className = 'loot-tag';
+        tag.textContent = '⚔ DUNGEON CLEARED — LOOT: SOURCE CODE ⚔';
+        bar.after(tag);
+      }
+    });
+  });
+}
+
+function spawnDmgNum(card, e, dmg, crit) {
+  try {
+    const r = card.getBoundingClientRect();
+    const d = document.createElement('div');
+    d.className = 'dmg-num' + (crit ? ' crit' : '');
+    d.textContent = (crit ? 'CRIT ' : '') + '-' + dmg;
+    d.style.left = (e.clientX - r.left) + 'px';
+    d.style.top = (e.clientY - r.top) + 'px';
+    card.appendChild(d);
+    setTimeout(() => d.remove(), 900);
+  } catch (err) {}
+}
+
 // ═══ INIT ON GATE OPEN ═══
 const origInit = window.initMainContent;
 window.initMainContent = function() {
   if (origInit) origInit();
   setTimeout(() => {
     initSectionToasts();
+    initLevelUp();
+    initBossHp();
     initCardTilt();
     initProximityGlow();
     initArise();

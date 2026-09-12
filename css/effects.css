@@ -142,7 +142,7 @@
 /* ─── ARISE Section — Shadow Army Summoning ─── */
 #arise-section {
   position: relative;
-  min-height: 58vh;
+  min-height: 45vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -176,20 +176,6 @@
 .arise-text.summoning {
   opacity: 1;
   transform: scale(1);
-}
-.arise-subtitle {
-  position: relative;
-  z-index: 2;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.8rem;
-  color: rgba(74,144,255,0.5);
-  letter-spacing: 6px;
-  margin-top: 1rem;
-  opacity: 0;
-  transition: opacity 1s ease 0.8s;
-}
-.arise-text.summoning ~ .arise-subtitle {
-  opacity: 1;
 }
 /* Shadow figures rising */
 .shadow-figure {
@@ -401,15 +387,92 @@
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 #arise-easter.show .easter-word { transform: scale(1); }
-.easter-sub {
-  position: relative;
-  z-index: 2;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 0.8rem;
-  color: rgba(74,144,255,0.6);
-  letter-spacing: 6px;
-  margin-top: 1rem;
+
+/* ─── Level Up Window ─── */
+.levelup-window {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.8);
+  z-index: 9995;
+  background: rgba(8, 5, 0, 0.94);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 40px rgba(255,215,0,0.25), inset 0 0 40px rgba(255,215,0,0.05);
+  padding: 1.8rem 3rem;
+  text-align: center;
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
 }
+.levelup-window.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.levelup-window.hide { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+.lu-title {
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: 1.4rem;
+  letter-spacing: 5px;
+  color: #FFD700;
+  text-shadow: 0 0 20px rgba(255,215,0,0.6);
+  margin-bottom: 0.3rem;
+}
+.lu-level { font-size: 0.8rem; color: rgba(255,215,0,0.7); letter-spacing: 3px; margin-bottom: 0.8rem; }
+.lu-stat {
+  font-size: 0.85rem;
+  color: #C8D6E5;
+  letter-spacing: 2px;
+  margin-top: 0.3rem;
+  animation: lu-tick 0.3s ease-out;
+}
+@keyframes lu-tick { from { opacity: 0; transform: translateX(-8px); } }
+
+/* ─── Boss HP Bars (Dungeon Cards) ─── */
+.boss-hp { margin: 0.8rem 0 1rem; }
+.boss-hp-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.65rem;
+  color: rgba(255, 71, 87, 0.8);
+  letter-spacing: 2px;
+  margin-bottom: 0.3rem;
+}
+.boss-hp-track {
+  height: 6px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 1px;
+  overflow: hidden;
+}
+.boss-hp-fill {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #FF4757, #FF7A45);
+  box-shadow: 0 0 8px rgba(255,71,87,0.5);
+  border-radius: 1px;
+  transition: width 0.25s ease;
+}
+.project-card.cleared {
+  border-color: rgba(255, 215, 0, 0.5);
+  box-shadow: 0 0 30px rgba(255,215,0,0.2);
+}
+.loot-tag {
+  font-size: 0.7rem;
+  color: var(--gold, #FFD700);
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 20px rgba(255,215,0,0.4);
+  animation: lu-tick 0.3s ease-out;
+}
+.dmg-num {
+  position: absolute;
+  z-index: 5;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(74,144,255,0.9);
+  pointer-events: none;
+  animation: dmg-float 0.9s ease-out forwards;
+}
+.dmg-num.crit { color: #FFD700; font-size: 1.3rem; text-shadow: 0 0 15px rgba(255,215,0,0.9); }
+@keyframes dmg-float { to { opacity: 0; transform: translateY(-40px); } }
 
 /* ─── Footer hidden-command hint ─── */
 .footer-hint {
