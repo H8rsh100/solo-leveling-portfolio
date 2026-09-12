@@ -160,9 +160,7 @@
     if (typeof initMainContent === 'function') initMainContent();
   }
 
-  // Skip button + ESC
-  const skipBtn = document.getElementById('gate-skip');
-  if (skipBtn) skipBtn.addEventListener('click', finishGate);
+  // ESC bypass (no visible button by owner request)
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') finishGate();
   });

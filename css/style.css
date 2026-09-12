@@ -636,26 +636,6 @@ section {
   .gate-title { letter-spacing: 2px; }
 }
 
-/* ─── Gate skip ─── */
-#gate-skip {
-  margin-top: 2rem;
-  background: transparent;
-  border: 1px solid rgba(74,144,255,0.3);
-  color: var(--text-dim);
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 3px;
-  padding: 0.6rem 1.4rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-#gate-skip:hover, #gate-skip:focus-visible {
-  color: #fff;
-  border-color: var(--blue);
-  box-shadow: var(--glow-b);
-  outline: none;
-}
-
 /* ─── A11y: visible focus + reduced motion ─── */
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--blue);
