@@ -139,79 +139,6 @@
   min-width: 60px;
 }
 
-/* ─── ARISE Section — Shadow Army Summoning ─── */
-#arise-section {
-  position: relative;
-  min-height: 45vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  padding: 2rem 2rem;
-  scroll-snap-align: center;
-}
-#arise-section canvas {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-}
-.arise-text {
-  position: relative;
-  z-index: 2;
-  font-family: 'Rajdhani', sans-serif;
-  font-size: clamp(3rem, 10vw, 7rem);
-  font-weight: 700;
-  letter-spacing: 20px;
-  color: #fff;
-  text-shadow:
-    0 0 20px rgba(74,144,255,0.8),
-    0 0 60px rgba(74,144,255,0.5),
-    0 0 120px rgba(155,89,255,0.3);
-  text-transform: uppercase;
-  opacity: 0;
-  transform: scale(0.3);
-  transition: none;
-}
-.arise-text.summoning {
-  opacity: 1;
-  transform: scale(1);
-}
-/* Shadow figures rising */
-.shadow-figure {
-  position: absolute;
-  bottom: -20px;
-  width: 30px;
-  opacity: 0;
-  z-index: 1;
-  transition: none;
-}
-.shadow-figure.risen {
-  opacity: 1;
-}
-.shadow-figure .shadow-body {
-  width: 100%;
-  height: 80px;
-  background: linear-gradient(0deg, rgba(74,144,255,0.15), rgba(155,89,255,0.05) 70%, transparent);
-  border-radius: 50% 50% 0 0;
-  position: relative;
-}
-.shadow-figure .shadow-eyes {
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 6px;
-}
-.shadow-figure .shadow-eye {
-  width: 4px;
-  height: 4px;
-  background: #4A90FF;
-  border-radius: 50%;
-  box-shadow: 0 0 8px #4A90FF, 0 0 16px rgba(74,144,255,0.5);
-}
-
 /* ─── Level Badge ─── */
 .level-badge {
   font-family: 'Share Tech Mono', monospace;
@@ -351,7 +278,6 @@
 @media (max-width: 768px) {
   .system-toast { max-width: 280px; font-size: 0.7rem; }
   .status-window { padding: 2rem 1.5rem; }
-  .arise-text { letter-spacing: 6px; font-size: clamp(2rem, 8vw, 5rem); }
 }
 
 /* ─── ARISE Easter Egg Overlay ─── */
@@ -388,91 +314,17 @@
 }
 #arise-easter.show .easter-word { transform: scale(1); }
 
-/* ─── Level Up Window ─── */
-.levelup-window {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.8);
-  z-index: 9995;
-  background: rgba(8, 5, 0, 0.94);
-  border: 1px solid rgba(255, 215, 0, 0.5);
-  box-shadow: 0 0 40px rgba(255,215,0,0.25), inset 0 0 40px rgba(255,215,0,0.05);
-  padding: 1.8rem 3rem;
-  text-align: center;
-  opacity: 0;
-  transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-  pointer-events: none;
+/* screenShake — used by the ARISE easter-egg burst */
+@keyframes screenShake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-4px, -2px); }
+  20% { transform: translate(4px, 2px); }
+  30% { transform: translate(-3px, 3px); }
+  40% { transform: translate(3px, -3px); }
+  50% { transform: translate(-2px, 2px); }
+  60% { transform: translate(2px, -1px); }
+  70% { transform: translate(-1px, 1px); }
 }
-.levelup-window.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-.levelup-window.hide { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
-.lu-title {
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 700;
-  font-size: 1.4rem;
-  letter-spacing: 5px;
-  color: #FFD700;
-  text-shadow: 0 0 20px rgba(255,215,0,0.6);
-  margin-bottom: 0.3rem;
-}
-.lu-level { font-size: 0.8rem; color: rgba(255,215,0,0.7); letter-spacing: 3px; margin-bottom: 0.8rem; }
-.lu-stat {
-  font-size: 0.85rem;
-  color: #C8D6E5;
-  letter-spacing: 2px;
-  margin-top: 0.3rem;
-  animation: lu-tick 0.3s ease-out;
-}
-@keyframes lu-tick { from { opacity: 0; transform: translateX(-8px); } }
-
-/* ─── Boss HP Bars (Dungeon Cards) ─── */
-.boss-hp { margin: 0.8rem 0 1rem; }
-.boss-hp-top {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.65rem;
-  color: rgba(255, 71, 87, 0.8);
-  letter-spacing: 2px;
-  margin-bottom: 0.3rem;
-}
-.boss-hp-track {
-  height: 6px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 1px;
-  overflow: hidden;
-}
-.boss-hp-fill {
-  height: 100%;
-  width: 100%;
-  background: linear-gradient(90deg, #FF4757, #FF7A45);
-  box-shadow: 0 0 8px rgba(255,71,87,0.5);
-  border-radius: 1px;
-  transition: width 0.25s ease;
-}
-.project-card.cleared {
-  border-color: rgba(255, 215, 0, 0.5);
-  box-shadow: 0 0 30px rgba(255,215,0,0.2);
-}
-.loot-tag {
-  font-size: 0.7rem;
-  color: var(--gold, #FFD700);
-  letter-spacing: 2px;
-  margin-bottom: 1rem;
-  text-shadow: 0 0 20px rgba(255,215,0,0.4);
-  animation: lu-tick 0.3s ease-out;
-}
-.dmg-num {
-  position: absolute;
-  z-index: 5;
-  font-family: 'Rajdhani', sans-serif;
-  font-weight: 700;
-  color: #fff;
-  text-shadow: 0 0 10px rgba(74,144,255,0.9);
-  pointer-events: none;
-  animation: dmg-float 0.9s ease-out forwards;
-}
-.dmg-num.crit { color: #FFD700; font-size: 1.3rem; text-shadow: 0 0 15px rgba(255,215,0,0.9); }
-@keyframes dmg-float { to { opacity: 0; transform: translateY(-40px); } }
 
 /* ─── Footer hidden-command hint ─── */
 .footer-hint {

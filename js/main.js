@@ -138,7 +138,6 @@ function buildProjects() {
   PROJECTS.forEach((p, i) => {
     const gateType = p.rank === 'S' ? 'S-RANK GATE' : 'A-RANK GATE';
     const isS = p.rank === 'S';
-    const maxHp = isS ? 5000 : 3000;
     html += `
       <div class="project-card reveal ${isS ? 's-rank-card' : ''}" style="--delay: ${i * 0.1}s" id="project-${p.name.replace(/\s+/g, '-').toLowerCase()}">
         <div class="card-corner tl"></div>
@@ -146,10 +145,6 @@ function buildProjects() {
         <div class="card-corner bl"></div>
         <div class="card-corner br"></div>
         <p class="dungeon-label">⬡ ${gateType} ━━ CLEARED</p>
-        <div class="boss-hp" data-hp="${maxHp}" data-max="${maxHp}">
-          <div class="boss-hp-top"><span>BOSS HP</span><span class="boss-hp-num">${maxHp} / ${maxHp}</span></div>
-          <div class="boss-hp-track"><div class="boss-hp-fill" style="width:100%"></div></div>
-        </div>
         <div class="project-rank rank-${p.rank.toLowerCase()}">${p.rank}</div>
         <h3 class="project-name">${p.name}</h3>
         <p class="project-desc">${p.description}</p>
@@ -219,7 +214,6 @@ function initScrollAnimations() {
 
   gsap.from('.stat-item', { y: 40, opacity: 0, duration: 0.5, stagger: 0.15, delay: 1.3 });
   gsap.from('.hero-links a', { y: 30, opacity: 0, duration: 0.5, stagger: 0.1, delay: 1.6 });
-  gsap.from('.arise-text', { opacity: 0, y: 20, duration: 0.8, delay: 2.0 });
 }
 
 // ─── Scanline overlay ───
