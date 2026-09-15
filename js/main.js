@@ -9,6 +9,8 @@ function initMainContent() {
 }
 
 // ─── Hero Section — Status Window Style ───
+let hunterState = { hp: 9999, maxHp: 9999, mp: 8500, maxMp: 8500, exp: 87420, maxExp: 100000, level: 99 };
+
 function buildHero() {
   const hero = document.getElementById('hero');
   hero.innerHTML = `
@@ -24,38 +26,41 @@ function buildHero() {
       </div>
 
       <h1 class="hero-name glitch" data-text="${PROFILE.name}">${PROFILE.name}</h1>
-      <p class="level-badge">Lv. 99 ━ National-Level Hunter</p>
+      <p class="level-badge" id="level-badge">Lv. ${hunterState.level} ━ National-Level Hunter</p>
       <p class="hero-role">${PROFILE.role}</p>
 
       <div class="vitals-row" id="vitals">
-        <div class="vital-bar">
+        <div class="vital-bar" id="hp-row">
           <span class="vital-label hp">HP</span>
-          <div class="vital-track"><div class="vital-fill hp" id="hp-bar" style="width:0%"></div></div>
-          <span class="vital-value">9999 / 9999</span>
+          <div class="vital-track"><div class="vital-fill hp" id="hp-bar" style="width:100%"></div></div>
+          <span class="vital-value" id="hp-val">${hunterState.hp.toLocaleString()} / ${hunterState.maxHp.toLocaleString()}</span>
         </div>
-        <div class="vital-bar">
+        <div class="vital-bar" id="mp-row">
           <span class="vital-label mp">MP</span>
-          <div class="vital-track"><div class="vital-fill mp" id="mp-bar" style="width:0%"></div></div>
-          <span class="vital-value">8500 / 8500</span>
+          <div class="vital-track"><div class="vital-fill mp" id="mp-bar" style="width:100%"></div></div>
+          <span class="vital-value" id="mp-val">${hunterState.mp.toLocaleString()} / ${hunterState.maxMp.toLocaleString()}</span>
         </div>
-        <div class="vital-bar">
+        <div class="vital-bar" id="exp-row">
           <span class="vital-label exp">EXP</span>
-          <div class="vital-track"><div class="vital-fill exp" id="exp-bar" style="width:0%"></div></div>
-          <span class="vital-value">87,420 / 100,000</span>
+          <div class="vital-track"><div class="vital-fill exp" id="exp-bar" style="width:87.42%"></div></div>
+          <span class="vital-value" id="exp-val">${hunterState.exp.toLocaleString()} / ${hunterState.maxExp.toLocaleString()}</span>
         </div>
       </div>
 
       <div class="hero-stats">
         ${PROFILE.stats.map(s => `
-          <div class="stat-item">
+          <div class="stat-item" id="stat-${s.label.toLowerCase()}">
             <span class="stat-value">${s.value}</span>
             <span class="stat-label">${s.label}</span>
           </div>
         `).join('')}
       </div>
 
-      <div class="hero-links">
-        <a href="${PROFILE.links.github}" target="_blank" rel="noopener" class="sl-btn" id="github-link">
+      <p class="vital-hint">Click HP / MP / EXP to interact</p>
+    </div>
+
+    <div class="hero-links">
+      <a href="${PROFILE.links.github}" target="_blank" rel="noopener" class="sl-btn" id="github-link">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
           </svg>
@@ -202,18 +207,53 @@ function initScrollAnimations() {
   gsap.from('.level-badge', { y: 20, opacity: 0, duration: 0.5, delay: 0.8 });
   gsap.from('.hero-role', { y: 30, opacity: 0, duration: 0.6, delay: 0.9 });
 
-  // Animate HP/MP/EXP bars
+  // Animate HP/MP/EXP bars on load
   setTimeout(() => {
     const hp = document.getElementById('hp-bar');
     const mp = document.getElementById('mp-bar');
     const exp = document.getElementById('exp-bar');
     if (hp) hp.style.width = '100%';
     if (mp) mp.style.width = '100%';
-    if (exp) exp.style.width = '87.4%';
+    if (exp) exp.style.width = '87.42%';
   }, 1200);
+
+  // Interactive stat items (vitals are hover-only)
+  setupStatItems();
 
   gsap.from('.stat-item', { y: 40, opacity: 0, duration: 0.5, stagger: 0.15, delay: 1.3 });
   gsap.from('.hero-links a', { y: 30, opacity: 0, duration: 0.5, stagger: 0.1, delay: 1.6 });
+}
+
+function setupVitals() {
+  // Vitals are hover-only — click goes to stat items below
+}
+
+// Clickable stat items — Projects / Hackathons / Rank each trigger a unique flash
+function setupStatItems() {
+  const items = document.querySelectorAll('.stat-item');
+  items.forEach(item => {
+    item.style.cursor = 'pointer';
+    const label = item.querySelector('.stat-label')?.textContent || '';
+    item.title = 'Click to interact';
+    item.addEventListener('click', () => {
+      if (item.classList.contains('active')) return;
+      item.classList.add('active');
+      item.style.transform = 'scale(1.2)';
+      item.style.transition = 'transform 0.2s ease';
+      let text = '';
+      if (label === 'Projects') text = 'Dungeons Cataloged: ' + (parseInt(item.querySelector('.stat-value')?.textContent) + 1);
+      else if (label === 'Hackathons') text = 'Events Completed: ' + (parseInt(item.querySelector('.stat-value')?.textContent) + 1);
+      else if (label === 'Rank') text = 'Rank Upgraded: S+';
+      const valEl = item.querySelector('.stat-value');
+      if (valEl && text) {
+        const orig = valEl.textContent;
+        valEl.textContent = text;
+        valEl.style.color = 'var(--gold)';
+        setTimeout(() => { valEl.textContent = orig; valEl.style.color = ''; }, 1200);
+      }
+      setTimeout(() => { item.classList.remove('active'); item.style.transform = ''; }, 800);
+    });
+  });
 }
 
 // ─── Scanline overlay ───
@@ -221,4 +261,28 @@ function initScanlines() {
   const sl = document.createElement('div');
   sl.className = 'scanlines';
   document.body.appendChild(sl);
+
+  // Stats modal (click stat items to open)
+  const modal = document.createElement('div');
+  modal.className = 'stats-modal';
+  modal.id = 'stats-modal';
+  modal.innerHTML = `
+    <div class="stats-card">
+      <h3>── STATUS WINDOW ──</h3>
+      <div class="stats-row"><span class="stat-name">Level</span><span class="stat-val" id="modal-level">${hunterState.level}</span></div>
+      <div class="stats-row"><span class="stat-name">HP</span><span class="stat-val" id="modal-hp">${hunterState.hp.toLocaleString()} / ${hunterState.maxHp.toLocaleString()}</span></div>
+      <div class="stats-row"><span class="stat-name">MP</span><span class="stat-val" id="modal-mp">${hunterState.mp.toLocaleString()} / ${hunterState.maxMp.toLocaleString()}</span></div>
+      <div class="stats-row"><span class="stat-name">EXP</span><span class="stat-val" id="modal-exp">${hunterState.exp.toLocaleString()} / ${hunterState.maxExp.toLocaleString()}</span></div>
+      <div class="stats-row"><span class="stat-name">Rank</span><span class="stat-val" style="color:var(--gold)">S</span></div>
+      <button class="stats-close" id="stats-modal-close">CLOSE</button>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  document.getElementById('stats-modal-close').addEventListener('click', () => {
+    modal.classList.remove('open');
+  });
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('open');
+  });
 }
