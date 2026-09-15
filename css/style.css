@@ -478,11 +478,15 @@ section {
   align-items: center;
   gap: 0.8rem;
   margin-bottom: 0.7rem;
+  position: relative;
+  z-index: 1;
 }
 
 .skill-name {
   font-size: 0.85rem;
-  color: var(--text);
+  color: #e2e8f0;
+  position: relative;
+  z-index: 1;
 }
 
 .skill-bar-wrap {
