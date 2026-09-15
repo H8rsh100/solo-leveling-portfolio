@@ -55,13 +55,16 @@ function animateMana() {
 animateMana();
 
 // ═══ SYSTEM NOTIFICATION TOASTS ═══
-const systemMessages = [
-  { text: '「 System 」 New hunter profile loaded.', icon: '⚔️' },
-  { text: '「 System 」 Skill data synchronized.', icon: '📊' },
-  { text: '「 System 」 Dungeon records accessed.', icon: '🏰' }
-];
-let toastIndex = 0;
+const sectionToasts = {
+  'hero': { text: '「 System 」 New hunter profile loaded.', icon: '⚔️' },
+  'skills': { text: '「 System 」 Hunter stats synced.', icon: '📊' },
+  'globe-section': { text: '「 System 」 Skill constellation scanned.', icon: '🌐' },
+  'projects': { text: '「 System 」 Dungeon records accessed.', icon: '🏰' },
+  'footer': { text: '「 System 」 Hunter data archived.', icon: '📜' }
+};
 let toastContainer = null;
+const toastCooldowns = {};
+const COOLDOWN_MS = 4000;
 
 function createToastContainer() {
   toastContainer = document.createElement('div');
@@ -71,6 +74,10 @@ function createToastContainer() {
 }
 
 function showSystemToast(msg) {
+  const now = Date.now();
+  const key = msg.text.slice(0, 20);
+  if (toastCooldowns[key] && now - toastCooldowns[key] < COOLDOWN_MS) return;
+  toastCooldowns[key] = now;
   if (!toastContainer) createToastContainer();
   const toast = document.createElement('div');
   toast.className = 'system-toast';
@@ -84,22 +91,21 @@ function showSystemToast(msg) {
   }, 3000);
 }
 
-// ═══ SECTION SCROLL TRIGGERS ═══
+// ═══ SECTION SCROLL TRIGGERS — fires EVERY visit with cooldown ═══
 function initSectionToasts() {
-  // First message greets on arrival — no scroll needed
+  // Arrival greeting
   setTimeout(() => {
-    if (toastIndex === 0) {
-      showSystemToast(systemMessages[0]);
-      toastIndex = 1;
-    }
+    showSystemToast(sectionToasts['hero']);
   }, 2200);
-  const sections = document.querySelectorAll('#skills, #projects, #globe-section, #footer');
+
+  const sections = document.querySelectorAll('#hero, #skills, #globe-section, #projects, #footer');
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting && toastIndex < systemMessages.length) {
-        showSystemToast(systemMessages[toastIndex]);
-        toastIndex++;
-        obs.unobserve(entry.target);
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        if (sectionToasts[id]) {
+          showSystemToast(sectionToasts[id]);
+        }
       }
     });
   }, { threshold: 0.2 });
