@@ -194,7 +194,7 @@ function buildProjects() {
   `;
 
   PROJECTS.forEach((p, i) => {
-    const gateType = p.rank === 'S' ? 'S-RANK GATE' : 'A-RANK GATE';
+    const gateType = p.rank === 'S' ? 'S-RANK GATE' : p.rank + '-RANK GATE';
     const isS = p.rank === 'S';
     html += `
       <div class="project-card reveal ${isS ? 's-rank-card' : ''}" style="--delay: ${i * 0.1}s" id="project-${p.name.replace(/\s+/g, '-').toLowerCase()}">

@@ -143,28 +143,28 @@ const PROJECTS = [
   },
   {
     name: "SentryMesh",
-    rank: "A",
+    rank: "B",
     description: "ML-powered IoT Intrusion Detection System operating over MQTT with attack vector simulation and live cyberpunk dashboard.",
     github: "https://github.com/H8rsh100/SentryMesh",
     tags: ["Python", "Docker", "MQTT", "IoT", "ML", "WebSocket"]
   },
   {
     name: "MigrationMind",
-    rank: "A",
+    rank: "B",
     description: "AI-powered database migration risk analyzer that parses SQL AST, calculates risk scores, and integrates into CI/CD pipelines.",
     github: "https://github.com/H8rsh100/MigrationMind",
     tags: ["Python", "MySQL", "PostgreSQL", "AI", "AST", "CI/CD"]
   },
   {
     name: "NetGuard",
-    rank: "A",
+    rank: "C",
     description: "Unified Cyber Security Operations Center (SOC) dashboard inspecting live packet traffic with ML anomaly detection and real-time firewall control.",
     github: "https://github.com/H8rsh100/NetGuard",
     tags: ["Python", "Flask", "Scapy", "ML", "WebSocket"]
   },
   {
     name: "Cryptex",
-    rank: "A",
+    rank: "D",
     description: "Production-grade E2E encrypted 1:1 messaging application with RSA-3072 key exchange and AES-256-GCM transport security.",
     github: "https://github.com/H8rsh100/Cryptex",
     tags: ["Python", "Cryptography", "RSA", "AES-256", "WebSocket"]

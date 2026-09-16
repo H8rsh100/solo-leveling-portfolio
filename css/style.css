@@ -9,6 +9,8 @@
   --blue:     #4A90FF;
   --purple:   #9B59FF;
   --gold:     #FFD700;
+  --silver:   #B0B8C4;
+  --copper:   #8B6914;
   --text:     #C8D6E5;
   --text-dim: #5a6a7a;
   --border:   rgba(74, 144, 255, 0.15);
@@ -697,6 +699,8 @@ section {
 .rank-s { color: var(--gold); text-shadow: var(--glow-g); }
 .rank-a { color: var(--blue); text-shadow: var(--glow-b); }
 .rank-b { color: var(--purple); text-shadow: var(--glow-p); }
+.rank-c { color: var(--silver); }
+.rank-d { color: var(--copper); }
 
 .skill-rank {
   font-family: var(--font-heading);
