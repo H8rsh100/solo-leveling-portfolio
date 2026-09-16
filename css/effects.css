@@ -219,6 +219,24 @@
   box-shadow: 0 0 30px rgba(255, 215, 0, 0.15), 0 0 60px rgba(255, 215, 0, 0.05);
 }
 
+/* ─── Rank-based hover glows ─── */
+.project-card.rank-a:hover {
+  border-color: rgba(74, 144, 255, 0.4);
+  box-shadow: 0 0 30px rgba(74, 144, 255, 0.15), 0 0 60px rgba(74, 144, 255, 0.05);
+}
+.project-card.rank-b:hover {
+  border-color: rgba(155, 89, 255, 0.4);
+  box-shadow: 0 0 30px rgba(155, 89, 255, 0.15), 0 0 60px rgba(155, 89, 255, 0.05);
+}
+.project-card.rank-c:hover {
+  border-color: rgba(176, 184, 196, 0.4);
+  box-shadow: 0 0 30px rgba(176, 184, 196, 0.15), 0 0 60px rgba(176, 184, 196, 0.05);
+}
+.project-card.rank-d:hover {
+  border-color: rgba(139, 105, 20, 0.4);
+  box-shadow: 0 0 30px rgba(139, 105, 20, 0.15), 0 0 60px rgba(139, 105, 20, 0.05);
+}
+
 /* ─── Hexagonal Badge (S-Rank) — centered ─── */
 .hero-badge {
   position: relative;
