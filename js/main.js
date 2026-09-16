@@ -122,7 +122,7 @@ function initLicenseModal() {
   });
 
   modal.addEventListener('click', (e) => {
-    if (e.target === modal) modal.classList.remove('open');
+    if (!e.target.closest('.resume-card')) modal.classList.remove('open');
   });
 
   document.addEventListener('keydown', (e) => {
