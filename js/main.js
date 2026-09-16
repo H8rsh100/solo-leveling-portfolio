@@ -103,7 +103,7 @@ function initLicenseModal() {
         </div>
         <div class="resume-actions">
           <a href="resume.pdf" download class="resume-btn" id="resume-download">Download</a>
-          <button class="resume-close" id="resume-close">Close</button>
+          <button class="resume-close" id="resume-close">CLOSE</button>
         </div>
       </div>
       <div class="resume-body">
