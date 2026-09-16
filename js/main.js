@@ -27,7 +27,6 @@ function buildHero() {
 
       <h1 class="hero-name glitch" data-text="${PROFILE.name}">${PROFILE.name}</h1>
       <p class="level-badge" id="level-badge">Lv. ${hunterState.level} ━ National-Level Hunter</p>
-      <p class="hero-role">${PROFILE.role}</p>
 
       <div class="vitals-row" id="vitals">
         <div class="vital-bar" id="hp-row">
