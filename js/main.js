@@ -6,6 +6,7 @@ function initMainContent() {
   buildFooter();
   initScrollAnimations();
   initScanlines();
+  initLicenseModal();
 }
 
 // ─── Hero Section — Status Window Style ───
@@ -73,7 +74,60 @@ function buildHero() {
         </a>
       </div>
     </div>
+
+    <div class="hunter-license" id="hunter-license" title="Click to view Hunter License">
+      <div class="license-border"></div>
+      <div class="license-inner">
+        <span class="license-icon">⬡</span>
+        <span class="license-text">VIEW HUNTER LICENSE</span>
+        <span class="license-arrow">→</span>
+      </div>
+    </div>
   `;
+}
+
+// ─── Hunter License Modal ───
+function initLicenseModal() {
+  const card = document.getElementById('hunter-license');
+  if (!card) return;
+
+  const modal = document.createElement('div');
+  modal.className = 'resume-modal';
+  modal.id = 'resume-modal';
+  modal.innerHTML = `
+    <div class="resume-card">
+      <div class="resume-header">
+        <div class="resume-header-left">
+          <span>⬡</span>
+          <span>Hunter License — ${PROFILE.name}</span>
+        </div>
+        <div class="resume-actions">
+          <a href="resume.pdf" download class="resume-btn" id="resume-download">Download</a>
+          <button class="resume-close" id="resume-close">Close</button>
+        </div>
+      </div>
+      <div class="resume-body">
+        <iframe src="resume.pdf" title="Hunter Resume"></iframe>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  card.addEventListener('click', () => {
+    modal.classList.add('open');
+  });
+
+  document.getElementById('resume-close').addEventListener('click', () => {
+    modal.classList.remove('open');
+  });
+
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('open');
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') modal.classList.remove('open');
+  });
 }
 
 // ─── Skills Section — with Korean rune watermarks ───

@@ -154,6 +154,161 @@ body::before {
 }
 
 /* ══════════════════════════════════════
+   HUNTER LICENSE CARD
+   ══════════════════════════════════════ */
+.hunter-license {
+  position: relative;
+  width: fit-content;
+  margin: 2rem auto 0;
+  padding: 2px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.hunter-license:hover {
+  transform: scale(1.03);
+}
+.hunter-license:hover .license-border {
+  opacity: 1;
+}
+.license-border {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--gold);
+  opacity: 0.4;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.license-inner {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.8rem 1.8rem;
+  background: rgba(255, 215, 0, 0.04);
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+.hunter-license:hover .license-inner {
+  background: rgba(255, 215, 0, 0.08);
+  border-color: rgba(255, 215, 0, 0.4);
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.15);
+}
+.license-icon {
+  font-size: 1rem;
+  opacity: 0.7;
+}
+.license-arrow {
+  transition: transform 0.3s ease;
+}
+.hunter-license:hover .license-arrow {
+  transform: translateX(4px);
+}
+
+/* ─── Resume Modal ─── */
+.resume-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(3, 0, 10, 0.92);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.resume-modal.open {
+  opacity: 1;
+  visibility: visible;
+}
+.resume-card {
+  position: relative;
+  width: 90vw;
+  max-width: 800px;
+  height: 85vh;
+  background: var(--bg-card);
+  border: 1px solid var(--gold);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+.resume-modal.open .resume-card {
+  transform: scale(1);
+}
+.resume-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 2px;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.resume-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+.resume-body {
+  flex: 1;
+  overflow: hidden;
+}
+.resume-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.resume-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+.resume-btn {
+  padding: 0.5rem 1.2rem;
+  background: transparent;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+.resume-btn:hover {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: var(--gold);
+  box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+}
+.resume-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: 1px solid rgba(255, 215, 0, 0.3);
+  color: var(--gold);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  padding: 0.4rem 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.resume-close:hover {
+  background: rgba(255, 215, 0, 0.1);
+  border-color: var(--gold);
+}
+
+/* ══════════════════════════════════════
    MAIN CONTENT
    ══════════════════════════════════════ */
 .main-content {
@@ -374,7 +529,7 @@ section {
   max-width: 700px;
   height: 500px;
   margin: 0 auto;
-  margin-left: 13%;
+  margin-left: 17%;
   overflow: hidden;
   position: relative;
 }
