@@ -208,6 +208,42 @@ body::before {
   transform: translateX(4px);
 }
 
+/* ─── Scanline pass ─── */
+.hunter-license::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,215,0,0.08), transparent);
+  animation: scanline-pass 3s ease-in-out infinite;
+  pointer-events: none;
+}
+@keyframes scanline-pass {
+  0%, 100% { left: -60%; }
+  50% { left: 100%; }
+}
+
+/* ─── Pulse glow breathing ─── */
+@keyframes license-pulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(255,215,0,0.05); }
+  50% { box-shadow: 0 0 20px rgba(255,215,0,0.15); }
+}
+.hunter-license .license-inner {
+  animation: license-pulse 3s ease-in-out infinite;
+}
+
+/* ─── Hover glitch ─── */
+.hunter-license:hover .license-text {
+  animation: text-glitch 0.3s steps(2) 1;
+}
+@keyframes text-glitch {
+  0% { text-shadow: 2px 0 var(--blue), -2px 0 var(--purple); }
+  50% { text-shadow: -1px 0 var(--blue), 1px 0 var(--purple); }
+  100% { text-shadow: none; }
+}
+
 /* ─── Resume Modal ─── */
 .resume-modal {
   position: fixed;
