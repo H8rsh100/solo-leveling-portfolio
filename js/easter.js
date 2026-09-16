@@ -22,6 +22,12 @@
 
     const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+    // Dark backdrop behind everything
+    const bgDim = document.createElement('div');
+    bgDim.style.cssText = 'position:fixed;inset:0;z-index:9993;background:rgba(3,0,10,0.75);opacity:0;transition:opacity 0.4s ease;pointer-events:none;';
+    document.body.appendChild(bgDim);
+    requestAnimationFrame(() => { bgDim.style.opacity = '1'; });
+
     const overlay = document.createElement('div');
     overlay.id = 'arise-easter';
     overlay.innerHTML = '<canvas id="arise-easter-canvas"></canvas><div class="easter-word">ARISE</div>';
@@ -34,9 +40,10 @@
     }
 
     setTimeout(() => {
+      bgDim.style.opacity = '0';
       overlay.classList.remove('show');
       overlay.classList.add('fade');
-      setTimeout(() => overlay.remove(), 600);
+      setTimeout(() => { bgDim.remove(); overlay.remove(); }, 600);
     }, 2600);
   }
 
