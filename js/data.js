@@ -142,6 +142,13 @@ const PROJECTS = [
     tags: ["Python", "React", "Kubernetes", "GitOps", "FinOps"]
   },
   {
+    name: "AniFocus",
+    rank: "A",
+    description: "Gamified anime tracking dashboard with cyberpunk manga aesthetics, binaural beat focus mode, genre-based aura animations and XP-based leveling system.",
+    github: "https://github.com/H8rsh100/AniFocus",
+    tags: ["Next.js", "React", "TypeScript", "Tailwind", "Web Audio API"]
+  },
+  {
     name: "SentryMesh",
     rank: "B",
     description: "ML-powered IoT Intrusion Detection System operating over MQTT with attack vector simulation and live cyberpunk dashboard.",
